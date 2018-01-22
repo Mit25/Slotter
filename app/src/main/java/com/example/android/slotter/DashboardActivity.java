@@ -123,18 +123,5 @@ public class DashboardActivity extends AppCompatActivity {
             // Show 3 total pages.
             return 3;
         }
-
-        @Override
-        public CharSequence getPageTitle(int position){
-            switch(position){
-                case 0:
-                    return "Registered";
-                case 1:
-                    return "Created";
-                case 2:
-                    return "Upcoming";
-            }
-            return null;
-        }
     }
 }

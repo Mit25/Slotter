@@ -18,8 +18,8 @@
         </activity>
         <activity android:name=".SignupActivity" />
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main"
+            android:name=".DashboardActivity"
+            android:label="Slotter"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
