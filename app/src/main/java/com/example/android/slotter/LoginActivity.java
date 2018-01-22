@@ -89,6 +89,9 @@ public class LoginActivity extends AppCompatActivity {
         //show progressbar
         showProgressRing();
         //redirect to dashboard activity
+
+        Intent goToNextActivity = new Intent(getApplicationContext(), DashboardActivity.class);
+        startActivity(goToNextActivity);
     }
 
     public void signup(View v){
