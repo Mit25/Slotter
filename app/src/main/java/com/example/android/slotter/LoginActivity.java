@@ -2,6 +2,7 @@ package com.example.android.slotter;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,41 +13,64 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
 public class LoginActivity extends AppCompatActivity {
 
     ProgressDialog progressDialog;
+    private DatabaseReference databaseuser;
+    private DataSnapshot dsU;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        databaseuser = FirebaseDatabase.getInstance().getReference();
     }
 
-    public boolean validateCredentials(String uname, String pwd){
-        if(uname.length()==0){
-            Toast.makeText(getApplicationContext(),"Enter username",Toast.LENGTH_SHORT).show();
+
+    public boolean validateCredentials(final String uname, final String pwd) {
+        if (uname.length() == 0) {
+            Toast.makeText(getApplicationContext(), "Enter username", Toast.LENGTH_SHORT).show();
             return false;
-        }
-        else if(pwd.length()==0){
-            Toast.makeText(getApplicationContext(),"Enter password",Toast.LENGTH_SHORT).show();
+        } else if (pwd.length() == 0) {
+            Toast.makeText(getApplicationContext(), "Enter password", Toast.LENGTH_SHORT).show();
             return false;
-        }
-        else if ( pwd.length() < 4 || pwd.length() > 10) {
-            Toast.makeText(getApplicationContext(),"Enter password between 4 and 10 alphanumeric characters",Toast.LENGTH_SHORT).show();
+        } else if (pwd.length() < 4 || pwd.length() > 10) {
+            Toast.makeText(getApplicationContext(), "Enter password between 4 and 10 alphanumeric characters", Toast.LENGTH_SHORT).show();
             return false;
         }
 
+
+       final Query getPass = databaseuser.child("user").child(uname);
+
+       getPass.addListenerForSingleValueEvent(new ValueEventListener() {
+           @Override
+           public void onDataChange(DataSnapshot dataSnapshot) {
+               String pass = dataSnapshot.child("pwd").getValue().toString();
+               Log.d("YOU LOG IN!!!!", pass);
+               if(pass.equals(pwd))
+               {
+                   Log.d("YOU LOG IN!!!!", pass);
+
+                   Intent goToNextActivity = new Intent(getApplicationContext(), DashboardActivity.class);
+                   startActivity(goToNextActivity);
+               }
+           }
+
+           @Override
+           public void onCancelled(DatabaseError databaseError) {
+
+           }
+       });
         //Retrive password from database given username
         //SELECT password FROM User WHERE usernams=uname;
-
-        if(uname.equals("admin") && pwd.equals("123456")){
-            Toast.makeText(getApplicationContext(),"Login successful",Toast.LENGTH_SHORT).show();
-            return true;
-        }
-        else{
-            Toast.makeText(getApplicationContext(),"Login failed",Toast.LENGTH_SHORT).show();
-            return false;
-        }
+        return false;
     }
 
     public void loginFailed(Button login){
@@ -87,11 +111,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         //show progressbar
-        showProgressRing();
         //redirect to dashboard activity
-
-        Intent goToNextActivity = new Intent(getApplicationContext(), DashboardActivity.class);
-        startActivity(goToNextActivity);
     }
 
     public void signup(View v){

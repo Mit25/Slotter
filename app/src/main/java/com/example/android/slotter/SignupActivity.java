@@ -10,19 +10,36 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class SignupActivity extends AppCompatActivity {
 
     ProgressDialog progressDialog;
+    DatabaseReference databaseuser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+        databaseuser = FirebaseDatabase.getInstance().getReference();
     }
 
     public void signupFailed(Button signup){
         Toast.makeText(getApplicationContext(),"Retry",Toast.LENGTH_SHORT).show();
         signup.setEnabled(true);
+    }
+
+    private void registerUser(String uname, String name, String email, String cno, String pwd){
+
+        //String id = databaseuser.push().getKey();
+        User u = new User(uname,name,email,cno,pwd);
+
+        databaseuser.child("user").child(uname).setValue(u);
+
     }
 
     public boolean validateInfo(String uname, String name, String email, String cno, String pwd, String cpwd){
@@ -54,11 +71,12 @@ public class SignupActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Enter conformation password",Toast.LENGTH_SHORT).show();
             return false;
         }
-        else if(pwd.equals((cpwd))){
+        else if(!pwd.equals((cpwd))){
             Toast.makeText(getApplicationContext(),"Password and confirmation password does not match",Toast.LENGTH_SHORT).show();
             return false;
         }
 
+        registerUser(uname, name, email, cno,pwd);
         //Insert data into database
 
         return true;
@@ -71,6 +89,7 @@ public class SignupActivity extends AppCompatActivity {
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
         progressDialog.setCancelable(false);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
