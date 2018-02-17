@@ -78,7 +78,7 @@ public class SignupActivity extends AppCompatActivity {
 
         registerUser(uname, name, email, cno,pwd);
         //Insert data into database
-
+    ///IMPLEMENT :::  check if uname is not already inserted
         return true;
     }
 

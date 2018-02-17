@@ -22,7 +22,8 @@
         <activity
             android:name=".DashboardActivity"
             android:label="Slotter"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".addEvent"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,146 @@
+<RelativeLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:background="#2c3c53"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fitsSystemWindows="true">
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:layout_margin="16dp"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+
+            <EditText
+                android:id="@+id/ename"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Event Name"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:layout_marginBottom="16dp"
+                android:inputType="textPersonName"/>
+
+            <EditText
+                android:id="@+id/eventDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Description"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:layout_marginBottom="16dp"
+                android:inputType="textMultiLine" />
+
+            <EditText
+                android:id="@+id/ecode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Event Code"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:layout_marginBottom="16dp"
+                android:inputType="textPersonName"/>
+
+            <EditText
+                android:id="@+id/startDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Start Date"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:layout_marginBottom="16dp"
+                android:inputType="textPersonName"/>
+
+            <EditText
+                android:id="@+id/endDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="End Date"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:layout_marginBottom="16dp"
+                android:inputType="textPersonName"/>
+
+            <EditText
+                android:id="@+id/noSlot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="No. of Slot per Day"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:layout_marginBottom="16dp"
+                android:inputType="textPersonName"/>
+
+            <EditText
+                android:id="@+id/slotdur"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Slot Duration"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:layout_marginBottom="16dp"
+                android:inputType="textPersonName"/>
+
+            <EditText
+                android:id="@+id/slotint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Interval between two Slot (min)"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:layout_marginBottom="16dp"
+                android:inputType="textPersonName"/>
+
+            <EditText
+                android:id="@+id/stime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Start Time"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:layout_marginBottom="16dp"
+                android:inputType="textPersonName"/>
+
+            <EditText
+                android:id="@+id/etime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="End Time"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:layout_marginBottom="16dp"
+                android:inputType="textPersonName"/>
+
+            <Button
+                android:id="@+id/btn_addevent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#009a9a"
+                android:textColor="#ffffff"
+                android:layout_marginBottom="24dp"
+                android:onClick="addEvent1"
+                android:text="AddEvent"/>
+
+
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

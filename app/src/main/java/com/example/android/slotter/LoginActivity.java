@@ -1,7 +1,10 @@
 package com.example.android.slotter;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.MediaCas;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ShareActionProvider;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -25,12 +29,12 @@ public class LoginActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     private DatabaseReference databaseuser;
     private DataSnapshot dsU;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         databaseuser = FirebaseDatabase.getInstance().getReference();
+
     }
 
 
@@ -57,6 +61,11 @@ public class LoginActivity extends AppCompatActivity {
                if(pass.equals(pwd))
                {
                    Log.d("YOU LOG IN!!!!", pass);
+
+                   SharedPreferences sp = getSharedPreferences("key", Context.MODE_PRIVATE);
+                   SharedPreferences.Editor ed = sp.edit();
+                   ed.putString("value",uname);
+                   ed.commit();
 
                    Intent goToNextActivity = new Intent(getApplicationContext(), DashboardActivity.class);
                    startActivity(goToNextActivity);

@@ -1,5 +1,7 @@
 package com.example.android.slotter;
 
+
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -60,13 +62,28 @@ public class DashboardActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent goToNextActivity = new Intent(getApplicationContext(), addEvent.class);
+                startActivity(goToNextActivity);
+
             }
         });
 
+
     }
 
+ /*   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+
+        View v = inflater.inflate(R.layout.activity_add_event,container,false);
+        FloatingActionButton f = (FloatingActionButton)v.findViewById(R.id.fab);
+        f.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        return v;
+    }
+*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -123,5 +140,8 @@ public class DashboardActivity extends AppCompatActivity {
             // Show 3 total pages.
             return 3;
         }
+
+
+
     }
 }
