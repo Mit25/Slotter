@@ -53,28 +53,6 @@
                 android:inputType="textPersonName"/>
 
             <EditText
-                android:id="@+id/startDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Start Date"
-                android:textColor="#ffffff"
-                android:textColorHint="#ffffff"
-                android:layout_marginBottom="16dp"
-                android:inputType="textPersonName"/>
-
-            <EditText
-                android:id="@+id/endDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="End Date"
-                android:textColor="#ffffff"
-                android:textColorHint="#ffffff"
-                android:layout_marginBottom="16dp"
-                android:inputType="textPersonName"/>
-
-            <EditText
                 android:id="@+id/noSlot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -83,18 +61,18 @@
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff"
                 android:layout_marginBottom="16dp"
-                android:inputType="textPersonName"/>
+                android:inputType="numberDecimal"/>
 
             <EditText
                 android:id="@+id/slotdur"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Slot Duration"
+                android:hint="Slot Duration (in minutes)"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff"
                 android:layout_marginBottom="16dp"
-                android:inputType="textPersonName"/>
+                android:inputType="numberDecimal"/>
 
             <EditText
                 android:id="@+id/slotint"
@@ -105,28 +83,56 @@
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff"
                 android:layout_marginBottom="16dp"
+                android:inputType="numberDecimal"/>
+
+            <TextView
+                android:id="@+id/startDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textSize="20sp"
+                android:hint="Start Date"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:layout_marginBottom="16dp"
                 android:inputType="textPersonName"/>
 
-            <EditText
+            <TextView
+                android:id="@+id/endDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textSize="20sp"
+                android:hint="End Date"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp"
+                android:inputType="textPersonName"/>
+
+            <TextView
                 android:id="@+id/stime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:textSize="20sp"
                 android:hint="Start Time"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff"
                 android:layout_marginBottom="16dp"
                 android:inputType="textPersonName"/>
 
-            <EditText
+            <TextView
                 android:id="@+id/etime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="End Time"
+                android:textSize="20sp"
+                android:layout_marginTop="5dp"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="20dp"
                 android:inputType="textPersonName"/>
 
             <Button
