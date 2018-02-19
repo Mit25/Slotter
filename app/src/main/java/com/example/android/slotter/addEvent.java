@@ -146,7 +146,7 @@ public class addEvent extends AppCompatActivity {
 
     public void  genrateSlot(String sTime,String eTime,String noSlot,String interval,String slotDu,String sDate,String eDate) throws ParseException {
 
-        SimpleDateFormat d = new SimpleDateFormat("DD/MM/YYYY");
+        SimpleDateFormat d = new SimpleDateFormat("MM/DD/YYYY");
         SimpleDateFormat t = new SimpleDateFormat("HH:MM");
 
         Date s= d.parse(sDate);
