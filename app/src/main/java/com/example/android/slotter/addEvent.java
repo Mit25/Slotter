@@ -21,7 +21,10 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class addEvent extends AppCompatActivity {
 
@@ -141,10 +144,52 @@ public class addEvent extends AppCompatActivity {
         });
     }
 
-    public boolean slotCheccker(String sTime,String eTime,String noSlot,String interval,String slotDu)
+    public void  genrateSlot(String sTime,String eTime,String noSlot,String interval,String slotDu,String sDate,String eDate) throws ParseException {
+
+        SimpleDateFormat d = new SimpleDateFormat("DD/MM/YYYY");
+        SimpleDateFormat t = new SimpleDateFormat("HH:MM");
+
+        Date s= d.parse(sDate);
+        Date e = d.parse(eDate);
+        Date st = t.parse(sTime);
+        Date et = t.parse(eTime);
+
+        int inter = Integer.parseInt(interval);
+        int duration = Integer.parseInt(slotDu);
+
+        int cn=1;
+
+        Calendar c = Calendar.getInstance();
+        Calendar a = Calendar.getInstance();
+
+        while (!s.after(e))
+        {
+            while(!st.after(et))
+            {
+                c.setTime(st);
+                String stime = t.format(c.getTime());
+                c.add(Calendar.MINUTE,duration);
+                String etime = t.format(c.getTime());
+                c.add(Calendar.MINUTE,inter);
+                Slot slot = new Slot(cn,stime,etime,"",false,false);
+                String id = Integer.toString(cn);
+                databaseevent.child("Event").child(id).setValue(slot);
+                cn++;
+            }
+            a.setTime(s);
+            a.add(Calendar.DATE,1);
+            s = a.getTime();
+        }
+    }
+
+    public boolean slotCheccker(String sTime,String eTime,String noSlot,String interval,String slotDu,String sDate,String eDate)
     {
         String stime[] = sTime.split(":");
         String etime[] = eTime.split(":");
+
+        String s[] = sDate.split("/");
+        String e[] = eDate.split("/");
+
         int slot = Integer.parseInt(noSlot);
         int inter = Integer.parseInt(interval);
         int duration = Integer.parseInt(slotDu);
@@ -152,16 +197,29 @@ public class addEvent extends AppCompatActivity {
         int h = Integer.parseInt(etime[0])-Integer.parseInt(stime[0]);
         int m = Integer.parseInt(etime[1])-Integer.parseInt(stime[1]);
 
-        int total = h+m;
+        Date s1= new Date(Integer.parseInt(s[2]),Integer.parseInt(s[1]),Integer.parseInt(s[0]));
+        Date s2 = new Date(Integer.parseInt(e[2]),Integer.parseInt(e[1]),Integer.parseInt(e[0]));
+
+        if(s2.before(s1))
+            return false;
+
+        if(h==0) {
+            if(m<0)
+                return false;
+        }
+        if(h<0)
+            return false;
+
+        int total = h*60+m;
         int need = inter*(slot-1)+slot*duration;
+
         if(total<need)
             return false;
 
         return true;
     }
 
-    public void addEvent1(View v)
-    {
+    public void addEvent1(View v) throws ParseException {
         EditText eventName = (EditText) findViewById(R.id.ename);
         TextView sdate = (TextView) findViewById(R.id.startDate);
         TextView edate = (TextView) findViewById(R.id.endDate);
@@ -194,14 +252,15 @@ public class addEvent extends AppCompatActivity {
         }
         else
         {
-            if(!slotCheccker(sTime.getText().toString(),eTime.getText().toString(),noSlot.getText().toString(),interval.getText().toString(),slotDu.getText().toString()))
+            if(!slotCheccker(sTime.getText().toString(),eTime.getText().toString(),noSlot.getText().toString(),interval.getText().toString(),slotDu.getText().toString(),sdate.getText().toString(),edate.getText().toString()))
             {
                 Toast.makeText(getApplicationContext(),"Reenter No. of slot",Toast.LENGTH_SHORT).show();
             }
-            else{
-            Toast.makeText(getApplicationContext(),"Event Added Successfully",Toast.LENGTH_SHORT).show();
-            Intent goToNextActivity = new Intent(getApplicationContext(), DashboardActivity.class);
-            startActivity(goToNextActivity);
+            else
+            {
+                Toast.makeText(getApplicationContext(),"Event Added Successfully",Toast.LENGTH_SHORT).show();
+                Intent goToNextActivity = new Intent(getApplicationContext(), DashboardActivity.class);
+                startActivity(goToNextActivity);
             }
         }
 
@@ -210,6 +269,7 @@ public class addEvent extends AppCompatActivity {
         String id = databaseevent.push().getKey();
         databaseevent.child("Event").child(id).setValue(e);
 
+        genrateSlot(sTime.getText().toString(),eTime.getText().toString(),noSlot.getText().toString(),interval.getText().toString(),slotDu.getText().toString(),sdate.getText().toString(),edate.getText().toString());
 
         //IMPLEMENT :: Event code is unique
 
