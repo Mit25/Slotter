@@ -12,6 +12,10 @@ public class Event {
     String eCode;
     String eCreator;
 
+    public Event()
+    {
+
+    }
     public Event(String eventName, String sdate, String edate, String description, String eCode, String eCreator) {
         this.eventName = eventName;
         this.sdate = sdate;
@@ -43,5 +47,29 @@ public class Event {
 
     public String geteCreator() {
         return eCreator;
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
+    }
+
+    public void setSdate(String sdate) {
+        this.sdate = sdate;
+    }
+
+    public void setEdate(String edate) {
+        this.edate = edate;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void seteCode(String eCode) {
+        this.eCode = eCode;
+    }
+
+    public void seteCreator(String eCreator) {
+        this.eCreator = eCreator;
     }
 }
