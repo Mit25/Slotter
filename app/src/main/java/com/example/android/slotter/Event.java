@@ -12,11 +12,6 @@ public class Event {
     String eCode;
     String eCreator;
 
-    public Event()
-    {
-
-    }
-
     public Event(String eventName, String sdate, String edate, String description, String eCode, String eCreator) {
         this.eventName = eventName;
         this.sdate = sdate;

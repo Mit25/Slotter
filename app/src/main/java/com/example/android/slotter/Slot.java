@@ -5,15 +5,18 @@ package com.example.android.slotter;
  */
 
 public class Slot {
+
     int sNumber ;
+    String date;
     String stime;
     String etime;
     String uid;
     boolean auth ;
     boolean viewToUser ;
 
-    public Slot(int sNumber, String stime, String etime, String uid, boolean auth, boolean viewToUser) {
+    public Slot(int sNumber, String date, String stime, String etime, String uid, boolean auth, boolean viewToUser) {
         this.sNumber = sNumber;
+        this.date = date;
         this.stime = stime;
         this.etime = etime;
         this.uid = uid;
@@ -23,6 +26,10 @@ public class Slot {
 
     public int getsNumber() {
         return sNumber;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public String getStime() {

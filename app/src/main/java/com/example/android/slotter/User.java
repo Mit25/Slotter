@@ -12,17 +12,18 @@ public class User {
     String cno;
     String pwd;
 
-    public User()
-    {
-
-    }
-
     public User(String uname, String name, String email, String cno, String pwd) {
         this.uname = uname;
         this.name = name;
         this.email = email;
         this.cno = cno;
         this.pwd = pwd;
+    }
+
+    public User()
+
+    {
+
     }
 
     public String getUname() {
@@ -44,4 +45,6 @@ public class User {
     public String getPwd() {
         return pwd;
     }
+
+
 }

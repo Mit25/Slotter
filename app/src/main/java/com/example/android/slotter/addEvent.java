@@ -144,14 +144,15 @@ public class addEvent extends AppCompatActivity {
         });
     }
 
-    public void  genrateSlot(String sTime,String eTime,String noSlot,String interval,String slotDu,String sDate,String eDate) throws ParseException {
+    public void  genrateSlot(String k,String sTime,String eTime,String noSlot,String interval,String slotDu,String sDate,String eDate) throws ParseException {
 
-        SimpleDateFormat d = new SimpleDateFormat("MM/DD/YYYY");
-        SimpleDateFormat t = new SimpleDateFormat("HH:MM");
+        SimpleDateFormat d = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat t = new SimpleDateFormat("HH:mm");
 
         Date s= d.parse(sDate);
         Date e = d.parse(eDate);
         Date st = t.parse(sTime);
+        Date st1 = t.parse(sTime);
         Date et = t.parse(eTime);
 
         int inter = Integer.parseInt(interval);
@@ -164,20 +165,27 @@ public class addEvent extends AppCompatActivity {
 
         while (!s.after(e))
         {
+            a.setTime(s);
+            st=st1;
             while(!st.after(et))
             {
+                if(st.equals(et))
+                    break;
                 c.setTime(st);
                 String stime = t.format(c.getTime());
                 c.add(Calendar.MINUTE,duration);
                 String etime = t.format(c.getTime());
                 c.add(Calendar.MINUTE,inter);
-                Slot slot = new Slot(cn,stime,etime,"",false,false);
+                Slot slot = new Slot(cn,d.format(a.getTime()),stime,etime,"",false,false);
                 String id = Integer.toString(cn);
-                databaseevent.child("Event").child(id).setValue(slot);
+                databaseevent.child("Event").child(k).child(id).setValue(slot);
+                st = c.getTime();
                 cn++;
             }
             a.setTime(s);
+            //Log.d("sdate",d.format(a.getTime()));
             a.add(Calendar.DATE,1);
+            //Log.d("datechange!!!!!!!",d.format(a.getTime()));
             s = a.getTime();
         }
     }
@@ -266,10 +274,17 @@ public class addEvent extends AppCompatActivity {
 
         Event e = new Event(eventName.getText().toString(),sdate.getText().toString(),edate.getText().toString(),edescription.getText().toString(),ecode.getText().toString(),uname);
 
+
         String id = databaseevent.push().getKey();
         databaseevent.child("Event").child(id).setValue(e);
 
-        genrateSlot(sTime.getText().toString(),eTime.getText().toString(),noSlot.getText().toString(),interval.getText().toString(),slotDu.getText().toString(),sdate.getText().toString(),edate.getText().toString());
+        String key = databaseevent.push().getKey();
+
+        UserCreateEvent ue = new UserCreateEvent(id);
+        databaseevent.child("user").child(uname).child(key).setValue(ue);
+
+
+        genrateSlot(id,sTime.getText().toString(),eTime.getText().toString(),noSlot.getText().toString(),interval.getText().toString(),slotDu.getText().toString(),sdate.getText().toString(),edate.getText().toString());
 
         //IMPLEMENT :: Event code is unique
 
