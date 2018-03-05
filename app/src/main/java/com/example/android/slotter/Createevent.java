@@ -87,14 +87,22 @@ public class Createevent extends Fragment {
 
                     Event value = dataSnapshot1.getValue(Event.class);
                     Event fire = new Event();
+
                     String name = value.getEventName();
-                    String address = value.getSdate();
-                    String email = value.getEdate();
-                    Log.d("heyy event name!!!!",name);
+                    String sdate = value.getSdate();
+                    String edate = value.getEdate();
+                    String description = value.getDescription();
+                    String ecreator = value.geteCreator();
+                    String ecode = value.geteCode();
+
+                    //Log.d("heyy event name!!!!",name);
+
                     fire.setEventName(name);
-                    fire.setSdate(email);
-                    fire.setEdate(address);
-                    
+                    fire.setSdate(sdate);
+                    fire.setEdate(edate);
+                    fire.setDescription(description);
+                    fire.seteCreator(ecreator);
+                    fire.seteCode(ecode);
                     list.add(fire);
                     recyclerAdapter.notifyDataSetChanged();
 

@@ -80,16 +80,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyHode
         public void onClick(View view) {
             int positon = getAdapterPosition();
             Event e = this.l.get(positon);
-            Toast.makeText(view.getContext(),"NEW!!!!!!"+e.geteCode(),Toast.LENGTH_SHORT).show();
-            /*Intent i = new Intent(this.ctx,addEvent.class);
+       //     Toast.makeText(view.getContext(),"NEW!!!!!!"+e.geteCode(),Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(this.ctx,CardViewDetails.class);
             i.putExtra("Event Name",e.getEventName());
             i.putExtra("Start Date",e.getSdate());
             i.putExtra("End Date",e.getEdate());
             i.putExtra("Event Description",e.getDescription());
             i.putExtra("Event Code",e.geteCode());
             i.putExtra("Event Creator",e.geteCreator());
-//            this.ctx.startActivities(i);
-*/
+            this.ctx.startActivity(i);
+
         }
 
 
