@@ -2,6 +2,7 @@ package com.example.android.slotter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -35,7 +37,7 @@ public class Createevent extends Fragment {
     DatabaseReference myRef ;
     List<Event> list;
     RecyclerView recycle;
-
+    RecyclerAdapter recyclerAdapter;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,18 +45,43 @@ public class Createevent extends Fragment {
 
         View rootView = inflater.inflate(R.layout.cretedevent_dashboard, container, false);
         super.onCreate(savedInstanceState);
+
+        return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         myRef= FirebaseDatabase.getInstance().getReference().child("Event");
         myRef.keepSynced(true);
-        recycle = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
+        recycle = (RecyclerView) getView().findViewById(R.id.my_recycler_view);
 
-        final Query getPass = myRef.child("Event");
 
+
+
+        list = new ArrayList<>();
+        recyclerAdapter = new RecyclerAdapter(list,getActivity());
+        RecyclerView.LayoutManager recyce = new GridLayoutManager(this.getActivity(),1);
+        //RecyclerView.LayoutManager recyce = new LinearLayoutManager(getActivity());
+         //recycle.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
+        //RecyclerAdapter ad = new RecyclerAdapter(getActivity(),recyce)
+        recycle.setLayoutManager(recyce);
+        recycle.setItemAnimator( new DefaultItemAnimator());
+        recycle.setAdapter(recyclerAdapter);
+
+        prepareData();
+    }
+
+    public void prepareData() {
+        //final Query getPass = myRef.child("Event");
+        //Event e = new Event("a","b","c","d","g","h");
+        //list.add(e);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                list = new ArrayList<Event>();
+                //list = new ArrayList<Event>();
 
                 for(DataSnapshot dataSnapshot1 :dataSnapshot.getChildren()){
 
@@ -68,31 +95,19 @@ public class Createevent extends Fragment {
                     fire.setSdate(email);
                     fire.setEdate(address);
                     list.add(fire);
+                    Toast.makeText(getActivity(), list.get(0).getEdate(), Toast.LENGTH_SHORT).show();
+                    recyclerAdapter.notifyDataSetChanged();
 
                 }
 
             }
 
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w("Hello", "Failed to read value.", error.toException());
-            }
-        });
+        @Override
+        public void onCancelled(DatabaseError error) {
+            // Failed to read value
+            Log.w("Hello", "Failed to read value.", error.toException());
+        }
+    });
 
-        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(list,getActivity());
-        RecyclerView.LayoutManager recyce = new GridLayoutManager(getActivity(),2);
-        /// RecyclerView.LayoutManager recyce = new LinearLayoutManager(MainActivity.this);
-        // recycle.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
-        recycle.setLayoutManager(recyce);
-        recycle.setItemAnimator( new DefaultItemAnimator());
-        recycle.setAdapter(recyclerAdapter);
-
-
-        return rootView;
-    }
-
-
-
-
+}
 }
