@@ -94,8 +94,8 @@ public class Createevent extends Fragment {
                     fire.setEventName(name);
                     fire.setSdate(email);
                     fire.setEdate(address);
+                    
                     list.add(fire);
-                    Toast.makeText(getActivity(), list.get(0).getEdate(), Toast.LENGTH_SHORT).show();
                     recyclerAdapter.notifyDataSetChanged();
 
                 }
