@@ -24,7 +24,11 @@
             android:label="Slotter"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".addEvent" />
-        <activity android:name=".CardViewDetails"></activity>
+        <activity android:name=".CardViewDetails" />
+        <activity android:name=".SlotSelction" />
+        <activity android:name=".CreatedAuthSlot" />
+        <activity android:name=".UpcomingEnroll" />
+        <activity android:name=".SlotAuthorise"></activity>
     </application>
 
 </manifest>

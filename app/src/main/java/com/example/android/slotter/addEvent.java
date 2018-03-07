@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -52,7 +53,7 @@ public class addEvent extends AppCompatActivity {
             public void onClick(View view) {
                 Calendar cal = Calendar.getInstance();
                 int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
+                int month = cal.get(Calendar.MONTH)+1;
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog dialog = new DatePickerDialog(
@@ -80,7 +81,7 @@ public class addEvent extends AppCompatActivity {
             public void onClick(View view) {
                 Calendar cal = Calendar.getInstance();
                 int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
+                int month = cal.get(Calendar.MONTH)+1;
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog dialog = new DatePickerDialog(
@@ -178,7 +179,7 @@ public class addEvent extends AppCompatActivity {
                 c.add(Calendar.MINUTE,inter);
                 Slot slot = new Slot(cn,d.format(a.getTime()),stime,etime,"",false,false);
                 String id = Integer.toString(cn);
-                databaseevent.child("Event").child(k).child(id).setValue(slot);
+                databaseevent.child("Event").child(k).child("SLOTDETAILS").child(id).setValue(slot);
                 st = c.getTime();
                 cn++;
             }
@@ -247,7 +248,7 @@ public class addEvent extends AppCompatActivity {
         String uname = sp.getString("value" , null);
 
         Log.d("uname",uname);
-
+        Boolean flag=false;
         if(eventName.getText().toString().length()==0 || sdate.getText().toString().length()==0|| edate.getText().toString().length()==0 || edescription.getText().toString().length()==0
                 || ecode.getText().toString().length()==0 || noSlot.getText().toString().length()==0 || slotDu.getText().toString().length()==0 || interval.getText().toString().length()==0
         || sTime.getText().toString().length()==0 || eTime.getText().toString().length() == 0)
@@ -266,9 +267,7 @@ public class addEvent extends AppCompatActivity {
             }
             else
             {
-                Toast.makeText(getApplicationContext(),"Event Added Successfully",Toast.LENGTH_SHORT).show();
-                Intent goToNextActivity = new Intent(getApplicationContext(), DashboardActivity.class);
-                startActivity(goToNextActivity);
+                flag=true;
             }
         }
 
@@ -286,6 +285,14 @@ public class addEvent extends AppCompatActivity {
 
         genrateSlot(id,sTime.getText().toString(),eTime.getText().toString(),noSlot.getText().toString(),interval.getText().toString(),slotDu.getText().toString(),sdate.getText().toString(),edate.getText().toString());
 
+        if(flag){
+            //SystemClock.sleep(2000);
+            Toast.makeText(getApplicationContext(),"Event Added Successfully",Toast.LENGTH_SHORT).show();
+            Intent goToNextActivity = new Intent(getApplicationContext(), SlotSelction.class);
+            Log.d("Heuu",id);
+            goToNextActivity.putExtra("Event",id);
+            startActivity(goToNextActivity);
+        }
         //IMPLEMENT :: Event code is unique
 
     }

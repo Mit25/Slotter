@@ -14,6 +14,10 @@ public class Slot {
     boolean auth ;
     boolean viewToUser ;
 
+    public Slot(){
+
+    }
+
     public Slot(int sNumber, String date, String stime, String etime, String uid, boolean auth, boolean viewToUser) {
         this.sNumber = sNumber;
         this.date = date;
@@ -21,6 +25,34 @@ public class Slot {
         this.etime = etime;
         this.uid = uid;
         this.auth = auth;
+        this.viewToUser = viewToUser;
+    }
+
+    public void setsNumber(int sNumber) {
+        this.sNumber = sNumber;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setStime(String stime) {
+        this.stime = stime;
+    }
+
+    public void setEtime(String etime) {
+        this.etime = etime;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public void setAuth(boolean auth) {
+        this.auth = auth;
+    }
+
+    public void setViewToUser(boolean viewToUser) {
         this.viewToUser = viewToUser;
     }
 
