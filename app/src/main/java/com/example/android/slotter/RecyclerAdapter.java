@@ -87,14 +87,25 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyHode
             String tab=Integer.toString(TabIndex);
            // Log.d("tab",);
             Toast.makeText(view.getContext(),tab,Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(this.ctx,CardViewDetails.class);
+
+            Intent i=new Intent(this.ctx,CardViewDetails.class);
+
+            if(TabIndex==1)
+                i = new Intent(this.ctx,CardViewDetails.class);
+            else if(TabIndex==2)
+                i = new Intent(this.ctx,CreatedAuthSlot.class);
+            else if(TabIndex==3)
+                i = new Intent(this.ctx,UpcomingEnroll.class);
+
+            Log.d("ekey !!!",e.getRandKey());
             i.putExtra("Event Name",e.getEventName());
             i.putExtra("Start Date",e.getSdate());
             i.putExtra("End Date",e.getEdate());
             i.putExtra("Event Description",e.getDescription());
             i.putExtra("Event Code",e.geteCode());
             i.putExtra("Event Creator",e.geteCreator());
-            
+            i.putExtra("Event Key",e.getRandKey());
+
             this.ctx.startActivity(i);
 
         }

@@ -11,7 +11,7 @@ public class Event {
     String description;
     String eCode;
     String eCreator;
-
+    String randKey="";
     public Event()
     {
 
@@ -51,6 +51,14 @@ public class Event {
 
     public void setEventName(String eventName) {
         this.eventName = eventName;
+    }
+
+    public String getRandKey() {
+        return randKey;
+    }
+
+    public void setRandKey(String randKey) {
+        this.randKey = randKey;
     }
 
     public void setSdate(String sdate) {

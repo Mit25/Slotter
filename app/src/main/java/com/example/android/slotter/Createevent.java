@@ -62,9 +62,6 @@ public class Createevent extends Fragment {
         myRef.keepSynced(true);
         recycle = (RecyclerView) getView().findViewById(R.id.my_recycler_view);
 
-
-
-
         list = new ArrayList<>();
         recyclerAdapter = new RecyclerAdapter(list,getActivity(),TabIndex);
         RecyclerView.LayoutManager recyce = new GridLayoutManager(this.getActivity(),1);

@@ -27,7 +27,7 @@ public class SlotAuthorise extends AppCompatActivity {
     DatabaseReference myRef ;
     List<Slot> list;
     RecyclerView recycle;
-    RecyclerAdapterSlot recyclerAdapter;
+    RecyclerAdapterAuth recyclerAdapter;
     String eventKey;
 
     @Override
@@ -41,7 +41,7 @@ public class SlotAuthorise extends AppCompatActivity {
         recycle = (RecyclerView) findViewById(R.id.my_recycler_view_Slot);
 
         list = new ArrayList<>();
-        recyclerAdapter = new RecyclerAdapterSlot(list,getApplicationContext(),eventKey);
+        recyclerAdapter = new RecyclerAdapterAuth(list,getApplicationContext(),eventKey);
         RecyclerView.LayoutManager recyce = new GridLayoutManager(getApplicationContext(),1);
         //RecyclerView.LayoutManager recyce = new LinearLayoutManager(getActivity());
         //recycle.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));

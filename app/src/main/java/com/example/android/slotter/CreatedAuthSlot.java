@@ -1,7 +1,9 @@
 package com.example.android.slotter;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 public class CreatedAuthSlot extends AppCompatActivity {
@@ -12,12 +14,12 @@ public class CreatedAuthSlot extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_created_auth_slot);
-        ename = (TextView) findViewById(R.id.ename1);
-        ecreator = (TextView) findViewById(R.id.ecreator1);
-        sdate = (TextView) findViewById(R.id.startDate1);
-        edate = (TextView) findViewById(R.id.endDate1);
-        ecode = (TextView) findViewById(R.id.ecode1);
-        edes = (TextView) findViewById(R.id.eventDescription1);
+        ename = (TextView) findViewById(R.id.enameauth);
+        ecreator = (TextView) findViewById(R.id.ecreatorauth);
+        sdate = (TextView) findViewById(R.id.startDateauth);
+        edate = (TextView) findViewById(R.id.endDateauth);
+        ecode = (TextView) findViewById(R.id.ecodeauth);
+        edes = (TextView) findViewById(R.id.eventDescriptionauth);
 
         ename.setText("Event Name : " + getIntent().getStringExtra("Event Name"));
         ecreator.setText("Event Creator : " + getIntent().getStringExtra("Event Creator"));
@@ -25,5 +27,12 @@ public class CreatedAuthSlot extends AppCompatActivity {
         sdate.setText("Event Start Date : " + getIntent().getStringExtra("Start Date"));
         edate.setText("Event End Date : " + getIntent().getStringExtra("End Date"));
         ecode.setText("Event Code : " + getIntent().getStringExtra("Event Code"));
+    }
+
+    public void auth(View view)
+    {
+        Intent i=new Intent(getApplicationContext(),SlotAuthorise.class);
+        startActivity(i);
+
     }
 }

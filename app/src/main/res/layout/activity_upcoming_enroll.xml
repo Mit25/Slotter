@@ -32,7 +32,7 @@
                 android:inputType="textPersonName"/>
 
             <TextView
-                android:id="@+id/ecreatorenrenrl"
+                android:id="@+id/ecreatorenrl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"

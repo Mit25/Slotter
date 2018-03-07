@@ -275,7 +275,9 @@ public class addEvent extends AppCompatActivity {
 
 
         String id = databaseevent.push().getKey();
+        e.setRandKey(id);
         databaseevent.child("Event").child(id).setValue(e);
+
 
         String key = databaseevent.push().getKey();
 
