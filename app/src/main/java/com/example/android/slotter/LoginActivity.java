@@ -56,19 +56,25 @@ public class LoginActivity extends AppCompatActivity {
        getPass.addListenerForSingleValueEvent(new ValueEventListener() {
            @Override
            public void onDataChange(DataSnapshot dataSnapshot) {
-               String pass = dataSnapshot.child("pwd").getValue().toString();
-               Log.d("YOU LOG IN!!!!", pass);
-               if(pass.equals(pwd))
+               Object pass1 = dataSnapshot.child("pwd").getValue();
+
+               //Log.d("YOU LOG IN!!!!", pass);
+               if(pass1==null)
+               {}
+               else
                {
-                   Log.d("YOU LOG IN!!!!", pass);
+                   String pass = pass1.toString();
+                   if(pass.equals(pwd)) {
+                       Log.d("YOU LOG IN!!!!", pass);
 
-                   SharedPreferences sp = getSharedPreferences("key", Context.MODE_PRIVATE);
-                   SharedPreferences.Editor ed = sp.edit();
-                   ed.putString("value",uname);
-                   ed.commit();
+                       SharedPreferences sp = getSharedPreferences("key", Context.MODE_PRIVATE);
+                       SharedPreferences.Editor ed = sp.edit();
+                       ed.putString("value", uname);
+                       ed.commit();
 
-                   Intent goToNextActivity = new Intent(getApplicationContext(), DashboardActivity.class);
-                   startActivity(goToNextActivity);
+                       Intent goToNextActivity = new Intent(getApplicationContext(), DashboardActivity.class);
+                       startActivity(goToNextActivity);
+                   }
                }
            }
 

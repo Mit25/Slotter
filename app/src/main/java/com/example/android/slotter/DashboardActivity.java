@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 public class DashboardActivity extends AppCompatActivity {
 
+    int TabIndex;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -47,13 +48,31 @@ public class DashboardActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                TabIndex=tab.getPosition();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                TabIndex=tab.getPosition();
+            }
+        });
+        //TabIndex=tabLayout.getSelectedTabPosition();
+
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(),TabIndex);
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
@@ -113,16 +132,20 @@ public class DashboardActivity extends AppCompatActivity {
      * one of the sections/tabs/pages.
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
+        int y;
 
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
+        public SectionsPagerAdapter(FragmentManager fm,int x) {
+            super(fm);y=x;
         }
+
+
 
         @Override
         public Fragment getItem(int position) {
             switch(position){
                 case 0:
                     Regevent re=new Regevent();
+                    re.setint(y);
                     return re;
                 case 1:
                     Createevent ce=new Createevent();

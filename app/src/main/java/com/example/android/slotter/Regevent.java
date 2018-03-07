@@ -3,7 +3,9 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -38,12 +40,19 @@ public class Regevent extends Fragment {
     List<Event> list;
     RecyclerView recycle;
     RecyclerAdapter recyclerAdapter;
+    int TabIndex;
+
+    public void setint(int x)
+    {
+        TabIndex=x;
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d("heyyy","opps you entered");
 
         View rootView = inflater.inflate(R.layout.cretedevent_dashboard, container, false);
+
         super.onCreate(savedInstanceState);
 
         return rootView;
@@ -56,11 +65,8 @@ public class Regevent extends Fragment {
         myRef.keepSynced(true);
         recycle = (RecyclerView) getView().findViewById(R.id.my_recycler_view);
 
-
-
-
         list = new ArrayList<>();
-        recyclerAdapter = new RecyclerAdapter(list,getActivity());
+        recyclerAdapter = new RecyclerAdapter(list,getActivity(),TabIndex);
         RecyclerView.LayoutManager recyce = new GridLayoutManager(this.getActivity(),1);
         //RecyclerView.LayoutManager recyce = new LinearLayoutManager(getActivity());
         //recycle.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));

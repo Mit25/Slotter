@@ -38,6 +38,12 @@ public class Createevent extends Fragment {
     List<Event> list;
     RecyclerView recycle;
     RecyclerAdapter recyclerAdapter;
+    int TabIndex;
+
+    public void setint(int x)
+    {
+        TabIndex=x;
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -60,7 +66,7 @@ public class Createevent extends Fragment {
 
 
         list = new ArrayList<>();
-        recyclerAdapter = new RecyclerAdapter(list,getActivity());
+        recyclerAdapter = new RecyclerAdapter(list,getActivity(),TabIndex);
         RecyclerView.LayoutManager recyce = new GridLayoutManager(this.getActivity(),1);
         //RecyclerView.LayoutManager recyce = new LinearLayoutManager(getActivity());
          //recycle.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));

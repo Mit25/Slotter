@@ -3,6 +3,7 @@ package com.example.android.slotter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,18 +19,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyHode
 
     List<Event> list;
     Context context;
+    int TabIndex;
 
-
-    public RecyclerAdapter(List<Event> list, Context context) {
+    public RecyclerAdapter(List<Event> list, Context context,int x) {
         this.list = list;
         this.context = context;
+        this.TabIndex = x;
     }
 
     @Override
     public MyHoder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(context).inflate(R.layout.event_card_view,parent,false);
-        MyHoder myHoder = new MyHoder(view,context,list);
+        MyHoder myHoder = new MyHoder(view,context,list,TabIndex);
 
 
         return myHoder;
@@ -65,10 +67,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyHode
         TextView name,email,address;
         List<Event> l;
         Context ctx;
-        public MyHoder(View itemView,Context ctx,List<Event> list) {
+        int TabIndex;
+        public MyHoder(View itemView,Context ctx,List<Event> list,int x) {
             super(itemView);
             this.ctx = ctx;
             this.l = list;
+            this.TabIndex = x;
             itemView.setOnClickListener(this);
             name = (TextView) itemView.findViewById(R.id.eName);
             email= (TextView) itemView.findViewById(R.id.sDate);
@@ -80,7 +84,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyHode
         public void onClick(View view) {
             int positon = getAdapterPosition();
             Event e = this.l.get(positon);
-       //     Toast.makeText(view.getContext(),"NEW!!!!!!"+e.geteCode(),Toast.LENGTH_SHORT).show();
+            String tab=Integer.toString(TabIndex);
+           // Log.d("tab",);
+            Toast.makeText(view.getContext(),tab,Toast.LENGTH_SHORT).show();
             Intent i = new Intent(this.ctx,CardViewDetails.class);
             i.putExtra("Event Name",e.getEventName());
             i.putExtra("Start Date",e.getSdate());

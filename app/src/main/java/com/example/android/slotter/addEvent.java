@@ -281,7 +281,7 @@ public class addEvent extends AppCompatActivity {
         String key = databaseevent.push().getKey();
 
         UserCreateEvent ue = new UserCreateEvent(id);
-        databaseevent.child("user").child(uname).child(key).setValue(ue);
+        databaseevent.child("user").child(uname).child("CREATEDEVENT").child(key).setValue(ue);
 
 
         genrateSlot(id,sTime.getText().toString(),eTime.getText().toString(),noSlot.getText().toString(),interval.getText().toString(),slotDu.getText().toString(),sdate.getText().toString(),edate.getText().toString());
