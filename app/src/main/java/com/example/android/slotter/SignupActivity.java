@@ -94,7 +94,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(10000);
+                    Thread.sleep(1000);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -122,8 +122,9 @@ public class SignupActivity extends AppCompatActivity {
 
         //show progressbar
         showProgressRing();
-        //redirect to dashboard activity
 
+        Intent i = new Intent(getApplicationContext(),LoginActivity.class);
+        startActivity(i);
     }
 
     public void login(View v){

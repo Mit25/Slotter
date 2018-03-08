@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 /**
  * Created by Niraj Vadhaiya on 22-02-2018.
@@ -40,10 +41,9 @@ public class RecyclerAdapterSlot extends RecyclerView.Adapter<RecyclerAdapterSlo
         myRef.keepSynced(true);
 
         View view = LayoutInflater.from(context).inflate(R.layout.event_card_view,parent,false);
-        MyHoder myHoder = new MyHoder(view,context,list,myRef);
-
-
-        return myHoder;
+        MyHoder m = new MyHoder(view,context,list,myRef);
+        //m = myHoder;
+        return m;
     }
 
     @Override
@@ -77,7 +77,6 @@ public class RecyclerAdapterSlot extends RecyclerView.Adapter<RecyclerAdapterSlo
         List<Slot> l;
         FirebaseDatabase database;
         DatabaseReference myRef ;
-
         Context ctx;
 
         public MyHoder(View itemView,Context ctx,List<Slot> list,DatabaseReference ref) {
@@ -97,6 +96,7 @@ public class RecyclerAdapterSlot extends RecyclerView.Adapter<RecyclerAdapterSlo
             int positon = getAdapterPosition();
             Slot e = this.l.get(positon);
             String slotnum = Integer.toString(e.getsNumber());
+
             myRef.child(slotnum).child("viewToUser").setValue(true);
             
             //view.(Color.parseColor("#ADE07B"));

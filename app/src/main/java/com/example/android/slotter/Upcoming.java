@@ -40,6 +40,12 @@ public class Upcoming extends Fragment {
     RecyclerView recycle;
     RecyclerAdapter recyclerAdapter;
     int TabIndex;
+    String uname="";
+
+    public void setUname(String uname) {
+        this.uname = uname;
+    }
+
 
     public void setint(int x)
     {
@@ -80,7 +86,7 @@ public class Upcoming extends Fragment {
     }
 
     public void prepareData() {
-        Query getcreevent = myRef.child("user").child("jsnf").child("CREATEDEVENT");
+        Query getcreevent = myRef.child("user").child(uname).child("CREATEDEVENT");
         getcreevent.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -96,7 +102,7 @@ public class Upcoming extends Fragment {
             }
         });
 
-        Query getregevent = myRef.child("user").child("jsnf").child("REGISTEREVENT");
+        Query getregevent = myRef.child("user").child(uname).child("REGISTEREVENT");
         getregevent.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

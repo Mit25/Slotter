@@ -45,7 +45,7 @@ public class Regevent extends Fragment {
     String uname="";
 
     public void setUname(String uname) {
-       // this.uname = uname;
+       this.uname = uname;
     }
 
     public void setint(int x)
@@ -85,8 +85,8 @@ public class Regevent extends Fragment {
     }
 
     public void prepareData() {
-     //   Log.d("username",uname);
-        final Query getevent = myRef.child("user").child("hi").child("REGISTEREVENT");
+        Log.d("username",uname);
+        final Query getevent = myRef.child("user").child(uname).child("REGISTEREVENT");
         //Event e = new Event("a","b","c","d","g","h");
         //list.add(e);
         getevent.addValueEventListener(new ValueEventListener() {

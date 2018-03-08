@@ -26,9 +26,17 @@ public class SlotSelction extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference myRef ;
     List<Slot> list;
+    List<Integer> slist = new ArrayList<>();
     RecyclerView recycle;
     RecyclerAdapterSlot recyclerAdapter;
     String eventKey;
+
+    @Override
+    public void onBackPressed()
+    {
+
+        // super.onBackPressed(); // Comment this super call to avoid calling finish() or fragmentmanager's backstack pop operation.
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +99,10 @@ public class SlotSelction extends AppCompatActivity {
                     fire.setUid(uid);
                     fire.setViewToUser(isView);
                     fire.setAuth(isAuth);
-                    if(!isView) {
+                    if(!isView && !slist.contains(sNumber)) {
                         list.add(fire);
+                        slist.add(sNumber);
+                        //Log.d("view",stime);
                         recyclerAdapter.notifyDataSetChanged();
                     }
                 }

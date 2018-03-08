@@ -29,6 +29,14 @@ public class SlotAuthorise extends AppCompatActivity {
     RecyclerView recycle;
     RecyclerAdapterAuth recyclerAdapter;
     String eventKey;
+    List<Integer> sno = new ArrayList<>();
+
+    @Override
+    public void onBackPressed()
+    {
+
+        // super.onBackPressed(); // Comment this super call to avoid calling finish() or fragmentmanager's backstack pop operation.
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +100,9 @@ public class SlotAuthorise extends AppCompatActivity {
                     fire.setViewToUser(isView);
                     fire.setAuth(isAuth);
 
-                    if(isView && uid.compareTo("")!=0 && !isAuth) {
+                    if(isView && uid.compareTo("")!=0 && !isAuth && !sno.contains(sNumber)) {
                         list.add(fire);
+                        sno.add(sNumber);
                     }
                     String x = Integer.toString(list.size());
                     Log.d("List size",x);

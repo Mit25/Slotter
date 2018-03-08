@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,9 +43,21 @@ public class DashboardActivity extends AppCompatActivity {
     private ViewPager mViewPager;
 
     @Override
+    public void onBackPressed()
+    {
+
+        // super.onBackPressed(); // Comment this super call to avoid calling finish() or fragmentmanager's backstack pop operation.
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+       // uname = getIntent().getStringExtra("uname");
+        SharedPreferences sp = getSharedPreferences("key", Context.MODE_PRIVATE);
+        uname = sp.getString("value" , null);
+        Log.d("userName",uname);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -55,9 +68,6 @@ public class DashboardActivity extends AppCompatActivity {
         final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         //TabIndex=tabLayout.getSelectedTabPosition();
 
-      //  SharedPreferences sp = getSharedPreferences("key", Context.MODE_PRIVATE);
-        // uname = sp.getString("value" , null);
-            uname = getIntent().getStringExtra("uname");
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -128,6 +138,7 @@ public class DashboardActivity extends AppCompatActivity {
         public SectionsPagerAdapter(FragmentManager fm,String uname) {
             super(fm);
             this.uname = uname;
+            Log.d("uname",this.uname);
         }
 
 
@@ -143,10 +154,12 @@ public class DashboardActivity extends AppCompatActivity {
                 case 1:
                     Createevent ce=new Createevent();
                     ce.setint(2);
+                    ce.setUname(uname);
                     return ce;
                 case 2:
                     Upcoming ue=new Upcoming();
                     ue.setint(3);
+                    ue.setUname(uname);
                     return ue;
                 default:
                     return null;

@@ -39,6 +39,12 @@ public class Createevent extends Fragment {
     RecyclerView recycle;
     RecyclerAdapter recyclerAdapter;
     int TabIndex;
+    String uname="";
+
+    public void setUname(String uname) {
+        this.uname = uname;
+    }
+
 
     public void setint(int x)
     {
@@ -76,8 +82,8 @@ public class Createevent extends Fragment {
     }
 
     public void prepareData() {
-           Log.d("username","heyyyyyy");
-        final Query getevent = myRef.child("user").child("hi").child("CREATEDEVENT");
+           //Log.d("username","heuuuu");
+        final Query getevent = myRef.child("user").child(uname).child("CREATEDEVENT");
         //Event e = new Event("a","b","c","d","g","h");
         //list.add(e);
         getevent.addValueEventListener(new ValueEventListener() {

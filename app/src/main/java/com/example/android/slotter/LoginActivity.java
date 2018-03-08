@@ -90,7 +90,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void loginFailed(Button login){
-        Toast.makeText(getApplicationContext(),"Retry",Toast.LENGTH_SHORT).show();
         login.setEnabled(true);
     }
 
