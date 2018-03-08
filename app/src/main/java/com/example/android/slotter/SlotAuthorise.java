@@ -92,7 +92,7 @@ public class SlotAuthorise extends AppCompatActivity {
                     fire.setViewToUser(isView);
                     fire.setAuth(isAuth);
 
-                    if(isView && uid.compareTo("")!=0) {
+                    if(isView && uid.compareTo("")!=0 && !isAuth) {
                         list.add(fire);
                     }
                     String x = Integer.toString(list.size());

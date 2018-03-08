@@ -73,6 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                        ed.commit();
 
                        Intent goToNextActivity = new Intent(getApplicationContext(), DashboardActivity.class);
+                       goToNextActivity.putExtra("uname",uname);
                        startActivity(goToNextActivity);
                    }
                }

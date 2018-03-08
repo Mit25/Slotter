@@ -1,7 +1,9 @@
 package com.example.android.slotter;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,7 +25,7 @@ import android.widget.TextView;
 
 public class DashboardActivity extends AppCompatActivity {
 
-
+    String uname;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -46,13 +48,16 @@ public class DashboardActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(),uname);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         //TabIndex=tabLayout.getSelectedTabPosition();
 
+      //  SharedPreferences sp = getSharedPreferences("key", Context.MODE_PRIVATE);
+        // uname = sp.getString("value" , null);
+            uname = getIntent().getStringExtra("uname");
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -118,10 +123,11 @@ public class DashboardActivity extends AppCompatActivity {
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
         int y;
+        String uname;
 
-
-        public SectionsPagerAdapter(FragmentManager fm) {
+        public SectionsPagerAdapter(FragmentManager fm,String uname) {
             super(fm);
+            this.uname = uname;
         }
 
 
@@ -132,6 +138,7 @@ public class DashboardActivity extends AppCompatActivity {
                 case 0:
                     Regevent re=new Regevent();
                     re.setint(1);
+                    re.setUname(uname);
                     return re;
                 case 1:
                     Createevent ce=new Createevent();

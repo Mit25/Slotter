@@ -1,6 +1,7 @@
 package com.example.android.slotter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -41,6 +42,11 @@ public class Regevent extends Fragment {
     RecyclerView recycle;
     RecyclerAdapter recyclerAdapter;
     int TabIndex;
+    String uname="";
+
+    public void setUname(String uname) {
+       // this.uname = uname;
+    }
 
     public void setint(int x)
     {
@@ -61,7 +67,7 @@ public class Regevent extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        myRef= FirebaseDatabase.getInstance().getReference().child("Event");
+        myRef= FirebaseDatabase.getInstance().getReference();
         myRef.keepSynced(true);
         recycle = (RecyclerView) getView().findViewById(R.id.my_recycler_view);
 
@@ -79,10 +85,11 @@ public class Regevent extends Fragment {
     }
 
     public void prepareData() {
-        //final Query getPass = myRef.child("Event");
+     //   Log.d("username",uname);
+        final Query getevent = myRef.child("user").child("hi").child("REGISTEREVENT");
         //Event e = new Event("a","b","c","d","g","h");
         //list.add(e);
-        myRef.addValueEventListener(new ValueEventListener() {
+        getevent.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
@@ -91,27 +98,43 @@ public class Regevent extends Fragment {
 
                 for(DataSnapshot dataSnapshot1 :dataSnapshot.getChildren()){
 
-                    Event value = dataSnapshot1.getValue(Event.class);
-                    Event fire = new Event();
+                    String key = dataSnapshot1.child("eKey").getValue(String.class);
 
-                    String name = value.getEventName();
-                    String sdate = value.getSdate();
-                    String edate = value.getEdate();
-                    String description = value.getDescription();
-                    String ecreator = value.geteCreator();
-                    String ecode = value.geteCode();
-                    String key = value.getRandKey();
-                    //Log.d("heyy event name!!!!",name);
+                    Query getregevent = myRef.child("Event").child(key);
 
-                    fire.setEventName(name);
-                    fire.setSdate(sdate);
-                    fire.setEdate(edate);
-                    fire.setDescription(description);
-                    fire.seteCreator(ecreator);
-                    fire.seteCode(ecode);
-                    fire.setRandKey(key);
-                    list.add(fire);
-                    recyclerAdapter.notifyDataSetChanged();
+                    getregevent.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            Event value = dataSnapshot.getValue(Event.class);
+                            Event fire = new Event();
+
+                            String name = value.getEventName();
+                            String sdate = value.getSdate();
+                            String edate = value.getEdate();
+                            String description = value.getDescription();
+                            String ecreator = value.geteCreator();
+                            String ecode = value.geteCode();
+                            String key = value.getRandKey();
+                            //Log.d("heyy event name!!!!",name);
+
+                            fire.setEventName(name);
+                            fire.setSdate(sdate);
+                            fire.setEdate(edate);
+                            fire.setDescription(description);
+                            fire.seteCreator(ecreator);
+                            fire.seteCode(ecode);
+                            fire.setRandKey(key);
+                            list.add(fire);
+                            recyclerAdapter.notifyDataSetChanged();
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
 
                 }
 

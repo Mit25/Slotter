@@ -91,9 +91,10 @@ public class SlotSelction extends AppCompatActivity {
                     fire.setUid(uid);
                     fire.setViewToUser(isView);
                     fire.setAuth(isAuth);
-                    list.add(fire);
-                    recyclerAdapter.notifyDataSetChanged();
-
+                    if(!isView) {
+                        list.add(fire);
+                        recyclerAdapter.notifyDataSetChanged();
+                    }
                 }
 
             }

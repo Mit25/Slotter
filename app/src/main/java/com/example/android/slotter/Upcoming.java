@@ -36,6 +36,7 @@ public class Upcoming extends Fragment {
     FirebaseDatabase database;
     DatabaseReference myRef ;
     List<Event> list;
+    List<String> l = new ArrayList<>();
     RecyclerView recycle;
     RecyclerAdapter recyclerAdapter;
     int TabIndex;
@@ -58,7 +59,7 @@ public class Upcoming extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        myRef= FirebaseDatabase.getInstance().getReference().child("Event");
+        myRef= FirebaseDatabase.getInstance().getReference();
         myRef.keepSynced(true);
         recycle = (RecyclerView) getView().findViewById(R.id.my_recycler_view);
 
@@ -79,10 +80,42 @@ public class Upcoming extends Fragment {
     }
 
     public void prepareData() {
-        //final Query getPass = myRef.child("Event");
+        Query getcreevent = myRef.child("user").child("jsnf").child("CREATEDEVENT");
+        getcreevent.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot dataSnapshot1 :dataSnapshot.getChildren()) {
+                    String x=dataSnapshot1.child("eKey").getValue(String.class);
+                    l.add(x);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        Query getregevent = myRef.child("user").child("jsnf").child("REGISTEREVENT");
+        getregevent.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot dataSnapshot1 :dataSnapshot.getChildren()) {
+                    String x=dataSnapshot1.child("eKey").getValue(String.class);
+                    l.add(x);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         //Event e = new Event("a","b","c","d","g","h");
         //list.add(e);
-        myRef.addValueEventListener(new ValueEventListener() {
+        final Query getevent = myRef.child("Event");
+        getevent.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
@@ -109,7 +142,10 @@ public class Upcoming extends Fragment {
                     fire.setDescription(description);
                     fire.seteCreator(ecreator);
                     fire.seteCode(ecode);
-                    list.add(value);
+                    if(!l.contains(value.getRandKey()))
+                    {
+                        list.add(value);
+                    }
                     recyclerAdapter.notifyDataSetChanged();
 
                 }

@@ -58,7 +58,7 @@ public class Createevent extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        myRef= FirebaseDatabase.getInstance().getReference().child("Event");
+        myRef= FirebaseDatabase.getInstance().getReference();
         myRef.keepSynced(true);
         recycle = (RecyclerView) getView().findViewById(R.id.my_recycler_view);
 
@@ -76,10 +76,11 @@ public class Createevent extends Fragment {
     }
 
     public void prepareData() {
-        //final Query getPass = myRef.child("Event");
+           Log.d("username","heyyyyyy");
+        final Query getevent = myRef.child("user").child("hi").child("CREATEDEVENT");
         //Event e = new Event("a","b","c","d","g","h");
         //list.add(e);
-        myRef.addValueEventListener(new ValueEventListener() {
+        getevent.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
@@ -88,38 +89,54 @@ public class Createevent extends Fragment {
 
                 for(DataSnapshot dataSnapshot1 :dataSnapshot.getChildren()){
 
-                    Event value = dataSnapshot1.getValue(Event.class);
-                    Event fire = new Event();
+                    String key = dataSnapshot1.child("eKey").getValue(String.class);
 
-                    String name = value.getEventName();
-                    String sdate = value.getSdate();
-                    String edate = value.getEdate();
-                    String description = value.getDescription();
-                    String ecreator = value.geteCreator();
-                    String ecode = value.geteCode();
-                    String key = value.getRandKey();
-                    Log.d("heyy event key!!!!",key);
+                    Query getregevent = myRef.child("Event").child(key);
 
-                    fire.setEventName(name);
-                    fire.setSdate(sdate);
-                    fire.setEdate(edate);
-                    fire.setDescription(description);
-                    fire.seteCreator(ecreator);
-                    fire.seteCode(ecode);
-                    fire.setRandKey(key);
-                    list.add(fire);
-                    recyclerAdapter.notifyDataSetChanged();
+                    getregevent.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            Event value = dataSnapshot.getValue(Event.class);
+                            Event fire = new Event();
+
+                            String name = value.getEventName();
+                            String sdate = value.getSdate();
+                            String edate = value.getEdate();
+                            String description = value.getDescription();
+                            String ecreator = value.geteCreator();
+                            String ecode = value.geteCode();
+                            String key = value.getRandKey();
+                            //Log.d("heyy event name!!!!",name);
+
+                            fire.setEventName(name);
+                            fire.setSdate(sdate);
+                            fire.setEdate(edate);
+                            fire.setDescription(description);
+                            fire.seteCreator(ecreator);
+                            fire.seteCode(ecode);
+                            fire.setRandKey(key);
+                            list.add(fire);
+                            recyclerAdapter.notifyDataSetChanged();
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
 
                 }
 
             }
 
-        @Override
-        public void onCancelled(DatabaseError error) {
-            // Failed to read value
-            Log.w("Hello", "Failed to read value.", error.toException());
-        }
-    });
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("Hello", "Failed to read value.", error.toException());
+            }
+        });
 
-}
+    }
 }
