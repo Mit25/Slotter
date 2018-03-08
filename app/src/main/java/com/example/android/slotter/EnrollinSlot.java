@@ -22,26 +22,28 @@ import java.util.List;
 
 import static java.security.AccessController.getContext;
 
-public class SlotAuthorise extends AppCompatActivity {
+public class EnrollinSlot extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference myRef ;
     List<Slot> list;
     RecyclerView recycle;
-    RecyclerAdapterAuth recyclerAdapter;
+    RecyclerAdapterEnroll recyclerAdapter;
     String eventKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_slot_authorise);
-        eventKey= getIntent().getStringExtra("Event Key");
+        setContentView(R.layout.activity_enrollin_slot);
+        eventKey= getIntent().getStringExtra("Event");
 
         myRef= FirebaseDatabase.getInstance().getReference().child("Event");
         myRef.keepSynced(true);
-        recycle = (RecyclerView) findViewById(R.id.my_recycler_view_Slot_auth);
+        recycle = (RecyclerView) findViewById(R.id.my_recycler_view_enrlslot);
 
+        String uname = getIntent().getStringExtra("uname");
+        eventKey = getIntent().getStringExtra("Event Key");
         list = new ArrayList<>();
-        recyclerAdapter = new RecyclerAdapterAuth(list,getApplicationContext(),eventKey);
+        recyclerAdapter = new RecyclerAdapterEnroll(list,getApplicationContext(),eventKey,uname);
         RecyclerView.LayoutManager recyce = new GridLayoutManager(getApplicationContext(),1);
         //RecyclerView.LayoutManager recyce = new LinearLayoutManager(getActivity());
         //recycle.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
@@ -71,8 +73,8 @@ public class SlotAuthorise extends AppCompatActivity {
 
                 for(DataSnapshot dataSnapshot1 :dataSnapshot.getChildren()){
 
-                    //  Slot value = dataSnapshot1.getValue(Slot.class);
-                    Slot fire = new Slot();
+                    //Slot value = dataSnapshot1.getValue(Slot.class);
+                   Slot fire = new Slot();
 
                     int sNumber= dataSnapshot1.child("sNumber").getValue(Integer.class);
                     String date = dataSnapshot1.child("date").getValue(String.class);
@@ -91,15 +93,11 @@ public class SlotAuthorise extends AppCompatActivity {
                     fire.setUid(uid);
                     fire.setViewToUser(isView);
                     fire.setAuth(isAuth);
-
-                    if(isView && uid.compareTo("")!=0) {
+                    if(uid.compareTo("")==0 && isView) {
                         list.add(fire);
+                        recyclerAdapter.notifyDataSetChanged();
                     }
-                    String x = Integer.toString(list.size());
-                    Log.d("List size",x);
-                    recyclerAdapter.notifyDataSetChanged();
                 }
-
 
             }
 
@@ -112,8 +110,4 @@ public class SlotAuthorise extends AppCompatActivity {
 
     }
 
-    public void confirm(View view){
-        Intent i=new Intent(getApplicationContext(),DashboardActivity.class);
-        startActivity(i);
-    }
 }

@@ -109,7 +109,7 @@ public class Upcoming extends Fragment {
                     fire.setDescription(description);
                     fire.seteCreator(ecreator);
                     fire.seteCode(ecode);
-                    list.add(fire);
+                    list.add(value);
                     recyclerAdapter.notifyDataSetChanged();
 
                 }

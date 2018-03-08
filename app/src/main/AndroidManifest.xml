@@ -28,7 +28,8 @@
         <activity android:name=".SlotSelction" />
         <activity android:name=".CreatedAuthSlot" />
         <activity android:name=".UpcomingEnroll" />
-        <activity android:name=".SlotAuthorise"></activity>
+        <activity android:name=".SlotAuthorise" />
+        <activity android:name=".EnrollinSlot"></activity>
     </application>
 
 </manifest>

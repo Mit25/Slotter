@@ -1,6 +1,7 @@
 package com.example.android.slotter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ public class UpcomingEnroll extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upcoming_enroll);
+
         ename = (TextView) findViewById(R.id.enameenrl);
         ecreator = (TextView) findViewById(R.id.ecreatorenrl);
         sdate = (TextView) findViewById(R.id.startDateenrl);
@@ -27,6 +29,7 @@ public class UpcomingEnroll extends AppCompatActivity {
         ecode = (TextView) findViewById(R.id.ecodeenrl);
         edes = (TextView) findViewById(R.id.eventDescriptionenrl);
         randkey = getIntent().getStringExtra("Event Key");
+
        // Log.d("ekey !!!",randkey);
         ename.setText("Event Name : " + getIntent().getStringExtra("Event Name"));
         ecreator.setText("Event Creator : " + getIntent().getStringExtra("Event Creator"));
@@ -44,7 +47,11 @@ public class UpcomingEnroll extends AppCompatActivity {
         String key = myRef.push().getKey();
         myRef.child(key).child("eKey").setValue(randkey);
         myRef.keepSynced(true);
+        Intent i =new Intent(getApplicationContext(),EnrollinSlot.class);
+        i.putExtra("uname",uname);
+        i.putExtra("Event Key",randkey);
 
+        startActivity(i);
 
     }
 }

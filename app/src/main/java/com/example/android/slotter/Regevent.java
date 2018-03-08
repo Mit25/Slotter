@@ -100,7 +100,7 @@ public class Regevent extends Fragment {
                     String description = value.getDescription();
                     String ecreator = value.geteCreator();
                     String ecode = value.geteCode();
-
+                    String key = value.getRandKey();
                     //Log.d("heyy event name!!!!",name);
 
                     fire.setEventName(name);
@@ -109,6 +109,7 @@ public class Regevent extends Fragment {
                     fire.setDescription(description);
                     fire.seteCreator(ecreator);
                     fire.seteCode(ecode);
+                    fire.setRandKey(key);
                     list.add(fire);
                     recyclerAdapter.notifyDataSetChanged();
 

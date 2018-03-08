@@ -96,8 +96,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyHode
                 i = new Intent(this.ctx,CreatedAuthSlot.class);
             else if(TabIndex==3)
                 i = new Intent(this.ctx,UpcomingEnroll.class);
-
-            Log.d("ekey !!!",e.getRandKey());
+        //    String x= e.getEventName();
+       //     Log.d("ekey !!!",x);
             i.putExtra("Event Name",e.getEventName());
             i.putExtra("Start Date",e.getSdate());
             i.putExtra("End Date",e.getEdate());
@@ -105,7 +105,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyHode
             i.putExtra("Event Code",e.geteCode());
             i.putExtra("Event Creator",e.geteCreator());
             i.putExtra("Event Key",e.getRandKey());
-
+            //String y= e.getRandKey();
+            //Log.d("Event key",y);
             this.ctx.startActivity(i);
 
         }

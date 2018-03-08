@@ -97,8 +97,8 @@ public class Createevent extends Fragment {
                     String description = value.getDescription();
                     String ecreator = value.geteCreator();
                     String ecode = value.geteCode();
-
-                    //Log.d("heyy event name!!!!",name);
+                    String key = value.getRandKey();
+                    Log.d("heyy event key!!!!",key);
 
                     fire.setEventName(name);
                     fire.setSdate(sdate);
@@ -106,6 +106,7 @@ public class Createevent extends Fragment {
                     fire.setDescription(description);
                     fire.seteCreator(ecreator);
                     fire.seteCode(ecode);
+                    fire.setRandKey(key);
                     list.add(fire);
                     recyclerAdapter.notifyDataSetChanged();
 
