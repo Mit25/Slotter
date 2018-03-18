@@ -5,10 +5,13 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,15 +24,18 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.nbsp.materialfilepicker.MaterialFilePicker;
+import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 public class addEvent extends AppCompatActivity {
 
-    private TextView mDisplaystartDate,mDisplayendDate,mDisplaystatTime,mDisplayendTime;
+    private TextView mDisplaystartDate,mDisplayendDate,mDisplaystatTime,mDisplayendTime,filepath;
     private DatePickerDialog.OnDateSetListener mDateSetListener,mDateSetListener1;
     private TimePickerDialog.OnTimeSetListener mTimeSetListener,mTimeSetListener1;
     DatabaseReference databaseevent;
@@ -47,6 +53,7 @@ public class addEvent extends AppCompatActivity {
 
         mDisplaystatTime = (TextView) findViewById(R.id.stime);
         mDisplayendTime = (TextView) findViewById(R.id.etime);
+        filepath= (TextView) findViewById(R.id.filepath);
 
         mDisplaystartDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,6 +150,7 @@ public class addEvent extends AppCompatActivity {
 
             }
         });
+
     }
 
     public void  genrateSlot(String k,String sTime,String eTime,String noSlot,String interval,String slotDu,String sDate,String eDate) throws ParseException {
@@ -297,5 +305,41 @@ public class addEvent extends AppCompatActivity {
         }
         //IMPLEMENT :: Event code is unique
 
+    }
+
+    public void filepicker(View v){
+        new MaterialFilePicker()
+                .withActivity(addEvent.this)
+                .withRequestCode(1000)
+                .withFilter(Pattern.compile(".*\\.csv$"))
+                .withFilterDirectories(true)
+                .withHiddenFiles(true)
+                .start();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+            // Do anything with file
+            filepath.setText(filePath);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 1001: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this,"Permission Granted",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this,"Permission NOT Granted",Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+        }
     }
 }
