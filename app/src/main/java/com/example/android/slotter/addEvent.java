@@ -10,8 +10,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.os.Environment;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +30,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.nbsp.materialfilepicker.MaterialFilePicker;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -39,8 +46,7 @@ public class addEvent extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener mDateSetListener,mDateSetListener1;
     private TimePickerDialog.OnTimeSetListener mTimeSetListener,mTimeSetListener1;
     DatabaseReference databaseevent;
-
-
+    String path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +84,7 @@ public class addEvent extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
 
-                String date = month + "/" + day + "/" + year;
+                String date = (month+1) + "/" + day + "/" + year;
                 mDisplaystartDate.setText(date);
             }
         };
@@ -106,7 +112,7 @@ public class addEvent extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
 
-                String date = month + "/" + day + "/" + year;
+                String date = (month+1) + "/" + day + "/" + year;
                 mDisplayendDate.setText(date);
             }
         };
@@ -253,61 +259,78 @@ public class addEvent extends AppCompatActivity {
         eTime.setPaintFlags(eTime.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);*/
 
         SharedPreferences sp = getSharedPreferences("key", Context.MODE_PRIVATE);
-        String uname = sp.getString("value" , null);
+        String uname = sp.getString("value", null);
 
-        Log.d("uname",uname);
-        Boolean flag=false;
-        if(eventName.getText().toString().length()==0 || sdate.getText().toString().length()==0|| edate.getText().toString().length()==0 || edescription.getText().toString().length()==0
-                || ecode.getText().toString().length()==0 || noSlot.getText().toString().length()==0 || slotDu.getText().toString().length()==0 || interval.getText().toString().length()==0
-        || sTime.getText().toString().length()==0 || eTime.getText().toString().length() == 0)
-        {
-            Toast.makeText(getApplicationContext(),"Retry",Toast.LENGTH_SHORT).show();
+        Log.d("uname", uname);
+        Boolean flag = false;
+        if (eventName.getText().toString().length() == 0 || sdate.getText().toString().length() == 0 || edate.getText().toString().length() == 0 || edescription.getText().toString().length() == 0
+                || ecode.getText().toString().length() == 0 || noSlot.getText().toString().length() == 0 || slotDu.getText().toString().length() == 0 || interval.getText().toString().length() == 0
+                || sTime.getText().toString().length() == 0 || eTime.getText().toString().length() == 0) {
+            Toast.makeText(getApplicationContext(), "Retry", Toast.LENGTH_SHORT).show();
             noSlot.getText().clear();
             slotDu.getText().clear();
             interval.getText().clear();
             return;
-        }
-        else
-        {
-            if(!slotCheccker(sTime.getText().toString(),eTime.getText().toString(),noSlot.getText().toString(),interval.getText().toString(),slotDu.getText().toString(),sdate.getText().toString(),edate.getText().toString()))
-            {
-                Toast.makeText(getApplicationContext(),"Reenter No. of slot",Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
-                flag=true;
+        } else {
+            if (!slotCheccker(sTime.getText().toString(), eTime.getText().toString(), noSlot.getText().toString(), interval.getText().toString(), slotDu.getText().toString(), sdate.getText().toString(), edate.getText().toString())) {
+                Toast.makeText(getApplicationContext(), "Reenter No. of slot", Toast.LENGTH_SHORT).show();
+            } else {
+                flag = true;
             }
         }
 
-        Event e = new Event(eventName.getText().toString(),sdate.getText().toString(),edate.getText().toString(),edescription.getText().toString(),ecode.getText().toString(),uname);
 
+        if (flag) {
+            Event e = new Event(eventName.getText().toString(), sdate.getText().toString(), edate.getText().toString(), edescription.getText().toString(), ecode.getText().toString(), uname);
+            String id = databaseevent.push().getKey();
+            e.setRandKey(id);
+            databaseevent.child("Event").child(id).setValue(e);
+            String key = databaseevent.push().getKey();
+            UserCreateEvent ue = new UserCreateEvent(id);
+            databaseevent.child("user").child(uname).child("CREATEDEVENT").child(key).setValue(ue);
+            path = filepath.getText().toString();
 
-        String id = databaseevent.push().getKey();
-        e.setRandKey(id);
-        databaseevent.child("Event").child(id).setValue(e);
+            if (path.compareTo("") == 0) {
+                genrateSlot(id, sTime.getText().toString(), eTime.getText().toString(), noSlot.getText().toString(), interval.getText().toString(), slotDu.getText().toString(), sdate.getText().toString(), edate.getText().toString());
+                //SystemClock.sleep(2000);
+                Toast.makeText(getApplicationContext(), "Event Added Successfully", Toast.LENGTH_SHORT).show();
+                Intent goToNextActivity = new Intent(getApplicationContext(), SlotSelction.class);
+                Log.d("Heuu", id);
+                goToNextActivity.putExtra("Event", id);
+                startActivity(goToNextActivity);
+            }
+        else {
+            Log.d("opath",path);
+            File file = new File(path);
+            StringBuilder text = new StringBuilder();
+            try {
+                BufferedReader br = new BufferedReader(new FileReader(file));
+                String line;
+                while ((line = br.readLine()) != null) {
+                    Log.d("data",line);
+                    String a[] = line.split(",");
+                    Slot slot = new Slot(Integer.parseInt(a[0]), a[2], a[3], a[4], a[1], true, true);
+                    databaseevent.child("Event").child(id).child("SLOTDETAILS").child(a[0]).setValue(slot);
+                    String rkey = databaseevent.push().getKey();
+                    databaseevent.child("user").child(a[1]).child("REGISTEREVENT").child(rkey).child("eKey").setValue(id);
 
-
-        String key = databaseevent.push().getKey();
-
-        UserCreateEvent ue = new UserCreateEvent(id);
-        databaseevent.child("user").child(uname).child("CREATEDEVENT").child(key).setValue(ue);
-
-
-        genrateSlot(id,sTime.getText().toString(),eTime.getText().toString(),noSlot.getText().toString(),interval.getText().toString(),slotDu.getText().toString(),sdate.getText().toString(),edate.getText().toString());
-
-        if(flag){
-            //SystemClock.sleep(2000);
-            Toast.makeText(getApplicationContext(),"Event Added Successfully",Toast.LENGTH_SHORT).show();
-            Intent goToNextActivity = new Intent(getApplicationContext(), SlotSelction.class);
-            Log.d("Heuu",id);
-            goToNextActivity.putExtra("Event",id);
-            startActivity(goToNextActivity);
+                }
+                br.close();
+            } catch (IOException e1) {
+                //You'll need to add proper error handling here
+            }
         }
+    }
         //IMPLEMENT :: Event code is unique
 
     }
 
-    public void filepicker(View v){
+    public void filepicker(View v) {
+        checkPermissionsAndOpenFilePicker();
+
+    }
+
+        public void filepicker1(){
         new MaterialFilePicker()
                 .withActivity(addEvent.this)
                 .withRequestCode(1000)
@@ -317,13 +340,32 @@ public class addEvent extends AppCompatActivity {
                 .start();
     }
 
+    private void checkPermissionsAndOpenFilePicker() {
+        String permission = android.Manifest.permission.READ_EXTERNAL_STORAGE;
+
+        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
+                showError();
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{permission}, 1000);
+            }
+        } else {
+            filepicker1();
+        }
+    }
+
+    private void showError() {
+        Toast.makeText(this, "Allow external storage reading", Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 100 && resultCode == RESULT_OK) {
+        if (requestCode == 1000 && resultCode == RESULT_OK) {
             String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
             // Do anything with file
+            Log.d("path",filePath);
             filepath.setText(filePath);
         }
     }
