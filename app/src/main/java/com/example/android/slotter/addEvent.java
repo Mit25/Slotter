@@ -294,10 +294,6 @@ public class addEvent extends AppCompatActivity {
                 genrateSlot(id, sTime.getText().toString(), eTime.getText().toString(), noSlot.getText().toString(), interval.getText().toString(), slotDu.getText().toString(), sdate.getText().toString(), edate.getText().toString());
                 //SystemClock.sleep(2000);
                 Toast.makeText(getApplicationContext(), "Event Added Successfully", Toast.LENGTH_SHORT).show();
-                Intent goToNextActivity = new Intent(getApplicationContext(), SlotSelction.class);
-                Log.d("Heuu", id);
-                goToNextActivity.putExtra("Event", id);
-                startActivity(goToNextActivity);
             }
         else {
             Log.d("opath",path);
@@ -320,6 +316,10 @@ public class addEvent extends AppCompatActivity {
                 //You'll need to add proper error handling here
             }
         }
+            Intent goToNextActivity = new Intent(getApplicationContext(), SlotSelction.class);
+            Log.d("Heuu", id);
+            goToNextActivity.putExtra("Event", id);
+            startActivity(goToNextActivity);
     }
         //IMPLEMENT :: Event code is unique
 

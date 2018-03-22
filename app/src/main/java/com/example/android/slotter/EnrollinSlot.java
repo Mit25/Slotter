@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.BoringLayout;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -60,6 +61,12 @@ public class EnrollinSlot extends AppCompatActivity {
         recycle.setAdapter(recyclerAdapter);
 
         prepareData();
+        if(list.size()==0)
+        {
+            Toast.makeText(getApplicationContext(),"No more Slot Available",Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(getApplicationContext(),DashboardActivity.class);
+            startActivity(i);
+        }
 
     }
 

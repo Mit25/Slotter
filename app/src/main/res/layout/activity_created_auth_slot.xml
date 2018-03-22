@@ -103,6 +103,17 @@
                 android:onClick="auth"
                 android:text="Authorise Slot"/>
 
+            <Button
+                android:id="@+id/btn_live"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#009a9a"
+                android:textColor="#ffffff"
+                android:layout_marginBottom="24dp"
+                android:onClick="live"
+                android:text="Start Session"/>
+
+
 
 
         </LinearLayout>

@@ -4,7 +4,7 @@ package com.example.android.slotter;
  * Created by Niraj Vadhaiya on 19-02-2018.
  */
 
-public class Slot {
+public class Slot implements java.io.Serializable {
 
     int sNumber ;
     String date;
