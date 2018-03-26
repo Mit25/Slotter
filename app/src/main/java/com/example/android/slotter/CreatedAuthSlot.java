@@ -104,8 +104,9 @@ public class CreatedAuthSlot extends AppCompatActivity {
                     fire.setAuth(isAuth);
                     Log.d("heyy event name!!!!",uid);
 
-                    if(!uid.equals("") && isView && time.equals(fire.getDate())) {
-                        list.add(fire);
+                    if(!uid.equals("") && isView ) {
+                        if(!time.equals(fire.getDate())) // must clear not from here
+                            list.add(fire);
                     }
                     Log.d("size(",String.valueOf(list.size()));
 

@@ -2,6 +2,7 @@ package com.example.android.slotter;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +27,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import javax.mail.AuthenticationFailedException;
+import javax.mail.MessagingException;
 
 public class live extends AppCompatActivity {
 
@@ -110,6 +114,24 @@ public class live extends AppCompatActivity {
 
         est = (int)((esti * 0.9) + (0.1 * est));
 
+       String email = "";
+       // email = myRef.child("user").child(uname.getText().toString()).child("email").getKey();
+
+
+
+        Log.d("your email!!",email);
+        String[] recipients = {"nirajvadhaiya@gmail.com"};
+        SendEmailAsyncTask emailAsyncTask = new SendEmailAsyncTask();
+        //emailAsyncTask.activity = this;
+        String id = "slotter2018@gmail.com";
+        String pass = "Abcd1234.";
+        emailAsyncTask.m = new Mail(id, pass);
+        emailAsyncTask.m.set_from(id);
+        emailAsyncTask.m.setBody("Hey "+ uname.getText().toString() + " Your Slot will be start within " + esti + " minitues. So Please come on Time!!!!");
+        emailAsyncTask.m.set_to(recipients);
+        emailAsyncTask.m.set_subject("Registered for i.Fest'17");
+        emailAsyncTask.execute();
+
         //notificatiin set to user:::
         cn++;
         if(cn == list.size())
@@ -120,6 +142,48 @@ public class live extends AppCompatActivity {
         }
         else {
             setdata();
+        }
+    }
+    class SendEmailAsyncTask extends AsyncTask<Void, Void, Boolean> {
+        Mail m;
+        //register_new activity;
+
+        public SendEmailAsyncTask() {}
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                if (m.send()) {
+                    Log.d("****EMAIL CHECK***", "Email sent.");
+
+                } else {
+                    Log.d("****EMAIL CHECK***", "Email failed to send.");
+                }
+
+                return true;
+            } catch (AuthenticationFailedException e) {
+                Log.e(SendEmailAsyncTask.class.getName(), "Bad account details");
+                e.printStackTrace();
+                Log.d("****EMAIL CHECK***", "Authentication failed.");
+                return false;
+            } catch (MessagingException e) {
+                Log.e(SendEmailAsyncTask.class.getName(), "Email failed");
+                e.printStackTrace();
+                Log.d("****EMAIL CHECK***", "Email failed to send.");
+                return false;
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.d("****EMAIL CHECK***", "Unexpected error occured.");
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+           // activity.progressDialog.dismiss();
+            Log.d("****EMAIL CHECK***", "Progress Dialog dismissed.");
+            //activity.successDialog();
+            //activity.clearDetails();
         }
     }
 
