@@ -40,6 +40,13 @@ public class live extends AppCompatActivity {
     String dtime;
     int cn=0, est;
     TextView uname,sno,sdate,stime;
+    String email;
+
+    public void setemail(String x)
+    {
+        this.email = x;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,13 +121,29 @@ public class live extends AppCompatActivity {
 
         est = (int)((esti * 0.9) + (0.1 * est));
 
-       String email = "";
+
        // email = myRef.child("user").child(uname.getText().toString()).child("email").getKey();
 
+        final Query getemail = myRef.child("user").child(uname.getText().toString());
+
+        getemail.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String x=dataSnapshot.child("email").getValue().toString();
+                Log.d("heyyy",x);
+                setemail(x);
+                //email =x;
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
         Log.d("your email!!",email);
-        String[] recipients = {"nirajvadhaiya@gmail.com"};
+        String[] recipients = {email};
         SendEmailAsyncTask emailAsyncTask = new SendEmailAsyncTask();
         //emailAsyncTask.activity = this;
         String id = "slotter2018@gmail.com";

@@ -26,7 +26,7 @@ import static java.security.AccessController.getContext;
 public class EnrollinSlot extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference myRef ;
-    List<Slot> list;
+    List<Slot> list = new ArrayList<>();
     RecyclerView recycle;
     RecyclerAdapterEnroll recyclerAdapter;
     String eventKey;
@@ -60,13 +60,12 @@ public class EnrollinSlot extends AppCompatActivity {
         recycle.setItemAnimator( new DefaultItemAnimator());
         recycle.setAdapter(recyclerAdapter);
 
-        prepareData();
-        if(list.size()==0)
-        {
-            Toast.makeText(getApplicationContext(),"No more Slot Available",Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(getApplicationContext(),DashboardActivity.class);
-            startActivity(i);
-        }
+
+         prepareData();
+
+        Log.d("List size",String.valueOf(list.size()));
+
+
 
     }
 
