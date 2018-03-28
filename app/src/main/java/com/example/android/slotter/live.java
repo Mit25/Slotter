@@ -36,11 +36,12 @@ public class live extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference myRef ;
     ArrayList<Slot> list = new ArrayList<Slot>();
+    ArrayList<String> emaillist = new ArrayList<>();
     String eventKey;
     String dtime;
     int cn=0, est;
     TextView uname,sno,sdate,stime;
-    String email;
+    String email = "";
 
     public void setemail(String x)
     {
@@ -53,6 +54,7 @@ public class live extends AppCompatActivity {
         setContentView(R.layout.activity_live);
         eventKey= getIntent().getStringExtra("Event Key");
         list = (ArrayList<Slot>) getIntent().getSerializableExtra("List");
+        emaillist = (ArrayList<String>) getIntent().getSerializableExtra(("emailList"));
 
         Log.d("heyy event key!!!!",eventKey);
 
@@ -64,7 +66,7 @@ public class live extends AppCompatActivity {
         sdate = (TextView) findViewById(R.id.ldate);
         stime = (TextView) findViewById(R.id.lstime);
 
-        Log.d("check",String.valueOf(list.size()));
+        Log.d("check",String.valueOf(emaillist.size()));
 
         setdata();
 
@@ -72,6 +74,7 @@ public class live extends AppCompatActivity {
 
     void setdata()
     {
+        Log.d("cn",String.valueOf(cn));
         if(list.size()==0)
         {
             Toast.makeText(getApplicationContext(),"No User Enrolled",Toast.LENGTH_SHORT).show();
@@ -105,58 +108,48 @@ public class live extends AppCompatActivity {
 
     }
 
-    public void stop(View v)
-    {
+    public void stop(View v) {
         Calendar c = Calendar.getInstance();
-        Date d = c.getTime() ;
+        Date d = c.getTime();
         DateFormat df = new SimpleDateFormat("HH:mm");
         String time = df.format(d);
         String t[] = time.split(":");
         String t1[] = dtime.split(":");
 
-        int  min1= Integer.parseInt(t[0])*60+Integer.parseInt(t[1]);
-        int  min2= Integer.parseInt(t1[0])*60+Integer.parseInt(t1[1]);
+        int min1 = Integer.parseInt(t[0]) * 60 + Integer.parseInt(t[1]);
+        int min2 = Integer.parseInt(t1[0]) * 60 + Integer.parseInt(t1[1]);
         int esti = min1 - min2;
 
 
-        est = (int)((esti * 0.9) + (0.1 * est));
+        est = (int) ((esti * 0.9) + (0.1 * est));
 
 
-       // email = myRef.child("user").child(uname.getText().toString()).child("email").getKey();
+        // email = myRef.child("user").child(uname.getText().toString()).child("email").getKey();
+        String username = "";
+        if (cn < list.size() - 2)
+        {
+            //Slot s = list.get(cn + 2);
+            email = emaillist.get(cn+2);
+            //username = s.getUid();
 
-        final Query getemail = myRef.child("user").child(uname.getText().toString());
+        Log.d("useranmem",email);
 
-        getemail.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String x=dataSnapshot.child("email").getValue().toString();
-                Log.d("heyyy",x);
-                setemail(x);
-                //email =x;
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-        Log.d("your email!!",email);
-        String[] recipients = {email};
+        Log.d("your email!!", this.email);
+        String[] recipients = {"nirajvadhaiya@gmail.com"};
         SendEmailAsyncTask emailAsyncTask = new SendEmailAsyncTask();
         //emailAsyncTask.activity = this;
         String id = "slotter2018@gmail.com";
         String pass = "Abcd1234.";
         emailAsyncTask.m = new Mail(id, pass);
         emailAsyncTask.m.set_from(id);
-        emailAsyncTask.m.setBody("Hey "+ uname.getText().toString() + " Your Slot will be start within " + esti + " minitues. So Please come on Time!!!!");
+        emailAsyncTask.m.setBody("Hey " + uname.getText().toString() + " Your Slot will be start within " + esti + " minitues. So Please come on Time!!!!");
         emailAsyncTask.m.set_to(recipients);
         emailAsyncTask.m.set_subject("Registered for i.Fest'17");
         emailAsyncTask.execute();
-
+    }
         //notificatiin set to user:::
         cn++;
+        Log.d("cn",String.valueOf(cn));
         if(cn == list.size())
         {
             Toast.makeText(getApplicationContext(),"Slot Completed",Toast.LENGTH_SHORT).show();
@@ -167,6 +160,7 @@ public class live extends AppCompatActivity {
             setdata();
         }
     }
+
     class SendEmailAsyncTask extends AsyncTask<Void, Void, Boolean> {
         Mail m;
         //register_new activity;

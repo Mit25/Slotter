@@ -31,6 +31,7 @@ public class CreatedAuthSlot extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference myRef ;
     ArrayList<Slot> list = new ArrayList<Slot>();
+    ArrayList<String> emaillist = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +54,10 @@ public class CreatedAuthSlot extends AppCompatActivity {
 
         Calendar c = Calendar.getInstance();
         Date d = c.getTime() ;
-        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
         time = df.format(d);
 
-        myRef= FirebaseDatabase.getInstance().getReference().child("Event");
+        myRef= FirebaseDatabase.getInstance().getReference();
         myRef.keepSynced(true);
 
 
@@ -68,7 +69,7 @@ public class CreatedAuthSlot extends AppCompatActivity {
     {
         Log.d("heyy event key!!!!", key);
 
-        final Query getPass = myRef.child(key).child("SLOTDETAILS");
+        final Query getPass = myRef.child("Event").child(key).child("SLOTDETAILS");
 
         Log.d("heyy event key!!!!",key);
         //Event e = new Event("a","b","c","d","g","h");
@@ -104,11 +105,36 @@ public class CreatedAuthSlot extends AppCompatActivity {
                     fire.setAuth(isAuth);
                     Log.d("heyy event name!!!!",uid);
 
+
+
+
                     if(!uid.equals("") && isView ) {
-                        if(!time.equals(fire.getDate())) // must clear not from here
+                        if(time.equals(fire.getDate())) // must clear not from here
+                        {
+                            Log.d("time",time + fire.getDate());
+                            Query getemail = myRef.child("user").child(uid);
+
+                            Log.d("heyyyy!!!",getemail.toString());
+                            getemail.addListenerForSingleValueEvent((new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    String x = dataSnapshot.child("email").getValue().toString();
+                                    Log.d("heyyy", x);
+                                    emaillist.add(x);
+                                    //setemail(x);
+                                    //email =x;
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            }));
                             list.add(fire);
+                        }
                     }
                     Log.d("size(",String.valueOf(list.size()));
+                    Log.d("size(",String.valueOf(emaillist.size()));
 
                 }
 
@@ -143,7 +169,10 @@ public class CreatedAuthSlot extends AppCompatActivity {
             Intent i =new Intent(getApplicationContext(),live.class);
             i.putExtra("Event Key",key);
             i.putExtra("List", list);
+            i.putExtra("emailList", emaillist);
             Log.d("check", String.valueOf(list.size()));
+            Log.d("check", String.valueOf(emaillist.size()));
+
             startActivity(i);
         }
     }

@@ -9,6 +9,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,9 +69,6 @@ public class Upcoming extends Fragment {
         myRef= FirebaseDatabase.getInstance().getReference();
         myRef.keepSynced(true);
         recycle = (RecyclerView) getView().findViewById(R.id.my_recycler_view);
-
-
-
 
         list = new ArrayList<>();
         recyclerAdapter = new RecyclerAdapter(list,getActivity(),TabIndex);

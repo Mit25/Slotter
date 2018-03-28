@@ -98,7 +98,6 @@ public class UpcomingEnroll extends AppCompatActivity {
                     fire.setAuth(isAuth);
                     if(uid.compareTo("")==0 && isView) {
                         list.add(fire);
-                        //recyclerAdapter.notifyDataSetChanged();
                     }
                 }
 

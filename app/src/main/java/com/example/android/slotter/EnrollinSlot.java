@@ -66,7 +66,6 @@ public class EnrollinSlot extends AppCompatActivity {
         Log.d("List size",String.valueOf(list.size()));
 
 
-
     }
 
     public void prepareData() {
