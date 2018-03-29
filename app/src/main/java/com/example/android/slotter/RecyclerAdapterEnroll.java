@@ -102,17 +102,10 @@ public class RecyclerAdapterEnroll extends RecyclerView.Adapter<RecyclerAdapterE
         public void onClick(View view) {
             int positon = getAdapterPosition();
             Slot e = this.l.get(positon);
-            String slotnum = Integer.toString(e.getsNumber());
-            myRef.child(slotnum).child("viewToUser").setValue(true);
             final String slot = Integer.toString(e.getsNumber());
             Log.d("Slot NO. ", slot);
-            myRef.child(slot).child("uid").setValue(uname);
-            Intent i =new Intent(this.ctx,DashboardActivity.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            this.ctx.startActivity(i);
 
-
-            /*            AlertDialog.Builder builder1 = new AlertDialog.Builder(this.ctx);
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(itemView.getContext());
             builder1.setMessage("Confirm This Slot!!!!");
             builder1.setCancelable(true);
 
@@ -120,11 +113,10 @@ public class RecyclerAdapterEnroll extends RecyclerView.Adapter<RecyclerAdapterE
                     "Confirm",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-
-
                             myRef.child(slot).child("uid").setValue(uname);
-
-                            dialog.cancel();
+                            Intent i =new Intent(ctx,DashboardActivity.class);
+                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            ctx.startActivity(i);
 
                         }
                     });
@@ -138,8 +130,8 @@ public class RecyclerAdapterEnroll extends RecyclerView.Adapter<RecyclerAdapterE
                     });
 
             AlertDialog alert11 = builder1.create();
-            alert11.show();*/
-
+            alert11.show();
+    Log.d("dbsjd","dfsdf");
             //view.(Color.parseColor("#ADE07B"));
             //change to false and true
         }

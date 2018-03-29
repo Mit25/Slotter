@@ -92,6 +92,66 @@
                 android:layout_marginBottom="20dp"
                 android:inputType="textPersonName"/>
 
+            <TextView
+                android:id="@+id/sno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textSize="20sp"
+                android:hint="Event Name"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:layout_marginBottom="16dp"
+                android:inputType="textPersonName"/>
+
+            <TextView
+                android:id="@+id/sldate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textSize="20sp"
+                android:hint="Event Name"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:layout_marginBottom="16dp"
+                android:inputType="textPersonName"/>
+
+            <TextView
+                android:id="@+id/stime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textSize="20sp"
+                android:hint="Event Name"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:layout_marginBottom="16dp"
+                android:inputType="textPersonName"/>
+
+            <TextView
+                android:id="@+id/etime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textSize="20sp"
+                android:hint="Event Name"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:layout_marginBottom="16dp"
+                android:inputType="textPersonName"/>
+
+            <TextView
+                android:id="@+id/auth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textSize="20sp"
+                android:hint="Event Name"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:layout_marginBottom="16dp"
+                android:inputType="textPersonName"/>
+
 
         </LinearLayout>
     </ScrollView>

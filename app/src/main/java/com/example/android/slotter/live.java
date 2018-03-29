@@ -38,7 +38,7 @@ public class live extends AppCompatActivity {
     ArrayList<Slot> list = new ArrayList<Slot>();
     ArrayList<String> emaillist = new ArrayList<>();
     String eventKey;
-    String dtime;
+    String dtime,interval;
     int cn=0, est;
     TextView uname,sno,sdate,stime;
     String email = "";
@@ -53,6 +53,7 @@ public class live extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live);
         eventKey= getIntent().getStringExtra("Event Key");
+        interval = getIntent().getStringExtra("interval");
         list = (ArrayList<Slot>) getIntent().getSerializableExtra("List");
         emaillist = (ArrayList<String>) getIntent().getSerializableExtra(("emailList"));
 
@@ -92,7 +93,7 @@ public class live extends AppCompatActivity {
                 String t1[] = x.split(":");
                 int  min1= Integer.parseInt(t[0])*60+Integer.parseInt(t[1]);
                 int  min2= Integer.parseInt(t1[0])*60+Integer.parseInt(t1[1]);
-                est = min2-min1;
+                est = min2-min1 + Integer.parseInt(interval);
 
             }
             //Log.d("snloo",s.getsNumber());
@@ -121,7 +122,7 @@ public class live extends AppCompatActivity {
         int esti = min1 - min2;
 
 
-        est = (int) ((esti * 0.9) + (0.1 * est));
+        est = (int) ((esti * 0.9) + (0.1 * est)) + Integer.parseInt(interval);
 
 
         // email = myRef.child("user").child(uname.getText().toString()).child("email").getKey();
@@ -144,7 +145,7 @@ public class live extends AppCompatActivity {
         emailAsyncTask.m.set_from(id);
         emailAsyncTask.m.setBody("Hey " + uname.getText().toString() + " Your Slot will be start within " + esti + " minitues. So Please come on Time!!!!");
         emailAsyncTask.m.set_to(recipients);
-        emailAsyncTask.m.set_subject("Registered for i.Fest'17");
+        emailAsyncTask.m.set_subject("Slotter notification");
         emailAsyncTask.execute();
     }
         //notificatiin set to user:::

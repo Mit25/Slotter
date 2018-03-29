@@ -1,7 +1,9 @@
 package com.example.android.slotter;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
@@ -24,6 +26,8 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+
 public class DashboardActivity extends AppCompatActivity {
 
     String uname;
@@ -45,7 +49,36 @@ public class DashboardActivity extends AppCompatActivity {
     @Override
     public void onBackPressed()
     {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(DashboardActivity.this);
+        builder1.setMessage("Are you Sure to Logout?");
+        builder1.setCancelable(true);
 
+        builder1.setPositiveButton(
+                "Logout",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        SharedPreferences sp = getSharedPreferences("key", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor ed = sp.edit();
+                        ed.putString("value", "");
+                        ed.commit();
+
+                        Intent i =new Intent(getApplicationContext(),LoginActivity.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        DashboardActivity.this.startActivity(i);
+
+                    }
+                });
+
+        builder1.setNegativeButton(
+                "Cancle",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
         // super.onBackPressed(); // Comment this super call to avoid calling finish() or fragmentmanager's backstack pop operation.
     }
 

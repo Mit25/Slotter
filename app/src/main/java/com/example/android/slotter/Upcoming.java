@@ -25,7 +25,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -146,7 +150,20 @@ public class Upcoming extends Fragment {
                     fire.setDescription(description);
                     fire.seteCreator(ecreator);
                     fire.seteCode(ecode);
-                    if(!l.contains(value.getRandKey()))
+
+                    Date d = new Date();
+                    Calendar c = Calendar.getInstance();
+                    Date current = c.getTime();
+                    SimpleDateFormat f = new SimpleDateFormat("MM/dd/yyyy");
+                    try {
+                        d =f.parse(sdate);
+                    }
+                    catch (ParseException e)
+                    {
+                        e.printStackTrace();
+                    }
+                   // Log.d("date",d.toString() + " " + current.toString());
+                    if(!l.contains(value.getRandKey()) )
                     {
                         list.add(value);
                     }

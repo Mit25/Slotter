@@ -12,6 +12,8 @@ public class Event {
     String eCode;
     String eCreator;
     String randKey="";
+    String intervalTime="";
+
     public Event()
     {
 
@@ -23,6 +25,14 @@ public class Event {
         this.description = description;
         this.eCode = eCode;
         this.eCreator = eCreator;
+    }
+
+    public String getIntervalTime() {
+        return intervalTime;
+    }
+
+    public void setIntervalTime(String intervalTime) {
+        this.intervalTime = intervalTime;
     }
 
     public String getEventName() {

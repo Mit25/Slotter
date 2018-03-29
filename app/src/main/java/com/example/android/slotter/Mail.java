@@ -144,7 +144,7 @@ public class Mail extends javax.mail.Authenticator {
         if (_auth) {
             props.put("mail.smtp.auth", "true");
         }
-
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         props.put("mail.smtp.port", _port);
         props.put("mail.smtp.socketFactory.port", _sport);
         props.put("mail.smtp.socketFactory.class",

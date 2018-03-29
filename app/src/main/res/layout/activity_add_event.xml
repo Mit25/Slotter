@@ -52,16 +52,6 @@
                 android:layout_marginBottom="16dp"
                 android:inputType="textPersonName"/>
 
-            <EditText
-                android:id="@+id/noSlot"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="No. of Slot per Day"
-                android:textColor="#ffffff"
-                android:textColorHint="#ffffff"
-                android:layout_marginBottom="16dp"
-                android:inputType="numberDecimal"/>
 
             <EditText
                 android:id="@+id/slotdur"

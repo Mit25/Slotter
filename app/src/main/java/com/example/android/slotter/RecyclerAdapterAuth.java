@@ -8,11 +8,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 /**
@@ -77,7 +82,8 @@ public class RecyclerAdapterAuth extends RecyclerView.Adapter<RecyclerAdapterAut
         List<Slot> l;
         FirebaseDatabase database;
         DatabaseReference myRef ;
-
+        LinearLayout layout;
+        String slotnum;
         Context ctx;
 
         public MyHoder(View itemView,Context ctx,List<Slot> list,DatabaseReference ref) {
@@ -86,6 +92,7 @@ public class RecyclerAdapterAuth extends RecyclerView.Adapter<RecyclerAdapterAut
             this.l = list;
             this.myRef = ref;
             itemView.setOnClickListener(this);
+            layout = (LinearLayout) itemView.findViewById(R.id.layout);
             name = (TextView) itemView.findViewById(R.id.eName);
             email= (TextView) itemView.findViewById(R.id.sDate);
             address= (TextView) itemView.findViewById(R.id.eDate);
@@ -96,8 +103,35 @@ public class RecyclerAdapterAuth extends RecyclerView.Adapter<RecyclerAdapterAut
         public void onClick(View view) {
             int positon = getAdapterPosition();
             Slot e = this.l.get(positon);
-            String slotnum = Integer.toString(e.getsNumber());
-            myRef.child(slotnum).child("auth").setValue(true);
+            slotnum = Integer.toString(e.getsNumber());
+
+            final Query color = myRef.child(slotnum);
+            color.addListenerForSingleValueEvent((new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    String x = dataSnapshot.child("auth").getValue().toString();
+                    Log.d("boolean",x);
+                    if(x=="true")
+                    {
+                        myRef.child(slotnum).child("auth").setValue(false);
+                        layout.setBackgroundColor(Color.parseColor("#ffffff"));
+
+
+                    }
+                    else
+                    {
+                        myRef.child(slotnum).child("auth").setValue(true);
+
+                        layout.setBackgroundColor(Color.parseColor("#567845"));
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            }));
 
             //view.(Color.parseColor("#ADE07B"));
             //change to false and true

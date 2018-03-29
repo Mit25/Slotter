@@ -17,7 +17,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class UpcomingEnroll extends AppCompatActivity {
@@ -96,6 +100,8 @@ public class UpcomingEnroll extends AppCompatActivity {
                     fire.setUid(uid);
                     fire.setViewToUser(isView);
                     fire.setAuth(isAuth);
+
+
                     if(uid.compareTo("")==0 && isView) {
                         list.add(fire);
                     }
@@ -117,10 +123,6 @@ public class UpcomingEnroll extends AppCompatActivity {
     {
         SharedPreferences sp = getSharedPreferences("key", Context.MODE_PRIVATE);
         String uname = sp.getString("value" , null);
-        myRef= FirebaseDatabase.getInstance().getReference().child("user").child(uname).child("REGISTEREVENT");
-        String key = myRef.push().getKey();
-        myRef.child(key).child("eKey").setValue(randkey);
-        myRef.keepSynced(true);
         if(list.size()==0)
         {
             Toast.makeText(getApplicationContext(),"No more Slot Available",Toast.LENGTH_SHORT).show();
@@ -128,6 +130,10 @@ public class UpcomingEnroll extends AppCompatActivity {
             startActivity(i);
         }
         else {
+            myRef= FirebaseDatabase.getInstance().getReference().child("user").child(uname).child("REGISTEREVENT");
+            String key = myRef.push().getKey();
+            myRef.child(key).child("eKey").setValue(randkey);
+            myRef.keepSynced(true);
             Intent i =new Intent(getApplicationContext(),EnrollinSlot.class);
             i.putExtra("uname",uname);
             i.putExtra("Event Key",randkey);

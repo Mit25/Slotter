@@ -113,6 +113,7 @@ public class Createevent extends Fragment {
                             String ecreator = value.geteCreator();
                             String ecode = value.geteCode();
                             String key = value.getRandKey();
+                            String inter = value.getIntervalTime();
                             //Log.d("heyy event name!!!!",name);
 
                             fire.setEventName(name);
@@ -122,6 +123,7 @@ public class Createevent extends Fragment {
                             fire.seteCreator(ecreator);
                             fire.seteCode(ecode);
                             fire.setRandKey(key);
+                            fire.setIntervalTime(inter);
                             list.add(fire);
                             recyclerAdapter.notifyDataSetChanged();
 

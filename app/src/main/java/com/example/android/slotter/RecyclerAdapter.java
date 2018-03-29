@@ -105,6 +105,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyHode
             i.putExtra("Event Code",e.geteCode());
             i.putExtra("Event Creator",e.geteCreator());
             i.putExtra("Event Key",e.getRandKey());
+            i.putExtra("interval",e.getIntervalTime());
             //String y= e.getRandKey();
             //Log.d("Event key",y);
             this.ctx.startActivity(i);

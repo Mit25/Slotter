@@ -30,6 +30,7 @@ public class CreatedAuthSlot extends AppCompatActivity {
     String key,time;
     FirebaseDatabase database;
     DatabaseReference myRef ;
+    String interval;
     ArrayList<Slot> list = new ArrayList<Slot>();
     ArrayList<String> emaillist = new ArrayList<String>();
 
@@ -44,6 +45,7 @@ public class CreatedAuthSlot extends AppCompatActivity {
         ecode = (TextView) findViewById(R.id.ecodeauth);
         edes = (TextView) findViewById(R.id.eventDescriptionauth);
         key = getIntent().getStringExtra("Event Key");
+        interval = getIntent().getStringExtra("interval");
 
         ename.setText("Event Name : " + getIntent().getStringExtra("Event Name"));
         ecreator.setText("Event Creator : " + getIntent().getStringExtra("Event Creator"));
@@ -103,12 +105,9 @@ public class CreatedAuthSlot extends AppCompatActivity {
                     fire.setUid(uid);
                     fire.setViewToUser(isView);
                     fire.setAuth(isAuth);
-                    Log.d("heyy event name!!!!",uid);
 
-
-
-
-                    if(!uid.equals("") && isView ) {
+                    Log.d("time", time + fire.getDate());
+                    if(!uid.equals("") && isAuth ) {
                         if(time.equals(fire.getDate())) // must clear not from here
                         {
                             Log.d("time",time + fire.getDate());
@@ -170,6 +169,7 @@ public class CreatedAuthSlot extends AppCompatActivity {
             i.putExtra("Event Key",key);
             i.putExtra("List", list);
             i.putExtra("emailList", emaillist);
+            i.putExtra("interval",interval);
             Log.d("check", String.valueOf(list.size()));
             Log.d("check", String.valueOf(emaillist.size()));
 

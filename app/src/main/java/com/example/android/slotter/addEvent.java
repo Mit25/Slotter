@@ -205,7 +205,7 @@ public class addEvent extends AppCompatActivity {
         }
     }
 
-    public boolean slotCheccker(String sTime,String eTime,String noSlot,String interval,String slotDu,String sDate,String eDate)
+ /*   public boolean slotCheccker(String sTime,String eTime,String noSlot,String interval,String slotDu,String sDate,String eDate)
     {
         String stime[] = sTime.split(":");
         String etime[] = eTime.split(":");
@@ -241,14 +241,13 @@ public class addEvent extends AppCompatActivity {
 
         return true;
     }
-
+*/
     public void addEvent1(View v) throws ParseException {
         EditText eventName = (EditText) findViewById(R.id.ename);
         TextView sdate = (TextView) findViewById(R.id.startDate);
         TextView edate = (TextView) findViewById(R.id.endDate);
         EditText edescription = (EditText) findViewById(R.id.eventDescription);
         EditText ecode = (EditText) findViewById(R.id.ecode);
-        EditText noSlot = (EditText) findViewById(R.id.noSlot);
         EditText slotDu = (EditText) findViewById(R.id.slotdur);
         EditText interval = (EditText) findViewById(R.id.slotint);
         TextView sTime = (TextView) findViewById(R.id.stime);
@@ -264,19 +263,15 @@ public class addEvent extends AppCompatActivity {
         Log.d("uname", uname);
         Boolean flag = false;
         if (eventName.getText().toString().length() == 0 || sdate.getText().toString().length() == 0 || edate.getText().toString().length() == 0 || edescription.getText().toString().length() == 0
-                || ecode.getText().toString().length() == 0 || noSlot.getText().toString().length() == 0 || slotDu.getText().toString().length() == 0 || interval.getText().toString().length() == 0
+                || ecode.getText().toString().length() == 0 ||  slotDu.getText().toString().length() == 0 || interval.getText().toString().length() == 0
                 || sTime.getText().toString().length() == 0 || eTime.getText().toString().length() == 0) {
             Toast.makeText(getApplicationContext(), "Retry", Toast.LENGTH_SHORT).show();
-            noSlot.getText().clear();
+
             slotDu.getText().clear();
             interval.getText().clear();
             return;
         } else {
-            if (!slotCheccker(sTime.getText().toString(), eTime.getText().toString(), noSlot.getText().toString(), interval.getText().toString(), slotDu.getText().toString(), sdate.getText().toString(), edate.getText().toString())) {
-                Toast.makeText(getApplicationContext(), "Reenter No. of slot", Toast.LENGTH_SHORT).show();
-            } else {
-                flag = true;
-            }
+            flag = true;
         }
 
 
@@ -284,6 +279,7 @@ public class addEvent extends AppCompatActivity {
             Event e = new Event(eventName.getText().toString(), sdate.getText().toString(), edate.getText().toString(), edescription.getText().toString(), ecode.getText().toString(), uname);
             String id = databaseevent.push().getKey();
             e.setRandKey(id);
+            e.setIntervalTime(slotDu.getText().toString());
             databaseevent.child("Event").child(id).setValue(e);
             String key = databaseevent.push().getKey();
             UserCreateEvent ue = new UserCreateEvent(id);
@@ -291,7 +287,7 @@ public class addEvent extends AppCompatActivity {
             path = filepath.getText().toString();
 
             if (path.compareTo("") == 0) {
-                genrateSlot(id, sTime.getText().toString(), eTime.getText().toString(), noSlot.getText().toString(), interval.getText().toString(), slotDu.getText().toString(), sdate.getText().toString(), edate.getText().toString());
+                genrateSlot(id, sTime.getText().toString(), eTime.getText().toString(), "", interval.getText().toString(), slotDu.getText().toString(), sdate.getText().toString(), edate.getText().toString());
                 //SystemClock.sleep(2000);
                 Toast.makeText(getApplicationContext(), "Event Added Successfully", Toast.LENGTH_SHORT).show();
             }

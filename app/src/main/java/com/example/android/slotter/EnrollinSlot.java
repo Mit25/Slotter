@@ -51,7 +51,7 @@ public class EnrollinSlot extends AppCompatActivity {
         String uname = getIntent().getStringExtra("uname");
         eventKey = getIntent().getStringExtra("Event Key");
         list = new ArrayList<>();
-        recyclerAdapter = new RecyclerAdapterEnroll(list,getApplicationContext(),eventKey,uname);
+        recyclerAdapter = new RecyclerAdapterEnroll(list,EnrollinSlot.this,eventKey,uname);
         RecyclerView.LayoutManager recyce = new GridLayoutManager(getApplicationContext(),1);
         //RecyclerView.LayoutManager recyce = new LinearLayoutManager(getActivity());
         //recycle.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));

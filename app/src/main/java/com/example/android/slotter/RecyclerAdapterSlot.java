@@ -3,16 +3,23 @@ package com.example.android.slotter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +28,6 @@ import java.util.List;
  */
 
 public class RecyclerAdapterSlot extends RecyclerView.Adapter<RecyclerAdapterSlot.MyHoder>{
-
     List<Slot> list;
     Context context;
     FirebaseDatabase database;
@@ -43,16 +49,16 @@ public class RecyclerAdapterSlot extends RecyclerView.Adapter<RecyclerAdapterSlo
         View view = LayoutInflater.from(context).inflate(R.layout.event_card_view,parent,false);
         MyHoder m = new MyHoder(view,context,list,myRef);
         //m = myHoder;
+
+
         return m;
     }
-
     @Override
-    public void onBindViewHolder(MyHoder holder, int position) {
+    public void onBindViewHolder(MyHoder holder, final int position) {
         Slot mylist = list.get(position);
         holder.name.setText(mylist.getsNumber()+" "+mylist.getDate());
         holder.email.setText(mylist.getStime());
         holder.address.setText(mylist.getEtime());
-
 
     }
 
@@ -77,7 +83,9 @@ public class RecyclerAdapterSlot extends RecyclerView.Adapter<RecyclerAdapterSlo
         List<Slot> l;
         FirebaseDatabase database;
         DatabaseReference myRef ;
+        LinearLayout layout;
         Context ctx;
+        String slotnum;
 
         public MyHoder(View itemView,Context ctx,List<Slot> list,DatabaseReference ref) {
             super(itemView);
@@ -85,20 +93,48 @@ public class RecyclerAdapterSlot extends RecyclerView.Adapter<RecyclerAdapterSlo
             this.l = list;
             this.myRef = ref;
             itemView.setOnClickListener(this);
+            layout = (LinearLayout) itemView.findViewById(R.id.layout);
             name = (TextView) itemView.findViewById(R.id.eName);
             email= (TextView) itemView.findViewById(R.id.sDate);
             address= (TextView) itemView.findViewById(R.id.eDate);
 
         }
-
         @Override
         public void onClick(View view) {
+
             int positon = getAdapterPosition();
             Slot e = this.l.get(positon);
-            String slotnum = Integer.toString(e.getsNumber());
+            slotnum = Integer.toString(e.getsNumber());
 
-            myRef.child(slotnum).child("viewToUser").setValue(true);
-            
+
+
+            final Query color = myRef.child(slotnum);
+            color.addListenerForSingleValueEvent((new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    String x = dataSnapshot.child("viewToUser").getValue().toString();
+                    Log.d("boolean",x);
+                    if(x=="true")
+                    {
+                        myRef.child(slotnum).child("viewToUser").setValue(false);
+                        layout.setBackgroundColor(Color.parseColor("#ffffff"));
+
+
+                    }
+                    else
+                    {
+                        myRef.child(slotnum).child("viewToUser").setValue(true);
+
+                        layout.setBackgroundColor(Color.parseColor("#567845"));
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            }));
             //view.(Color.parseColor("#ADE07B"));
             //change to false and true
         }
