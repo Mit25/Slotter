@@ -162,8 +162,12 @@ public class Upcoming extends Fragment {
                     {
                         e.printStackTrace();
                     }
-                   // Log.d("date",d.toString() + " " + current.toString());
-                    if(!l.contains(value.getRandKey()) )
+                    Log.d("date",d.toString() + " " + current.toString());
+                    Calendar a = Calendar.getInstance();
+                    a.setTime(current);
+                    a.add(Calendar.DATE,-1);
+                    current = a.getTime();
+                    if(!l.contains(value.getRandKey()) && d.after(current))
                     {
                         list.add(value);
                     }
