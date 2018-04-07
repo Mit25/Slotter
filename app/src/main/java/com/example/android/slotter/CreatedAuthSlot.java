@@ -130,7 +130,7 @@ public class CreatedAuthSlot extends AppCompatActivity {
                                 }
                             }));
                             list.add(fire);
-                        }
+                         }
                     }
                     Log.d("size(",String.valueOf(list.size()));
                     Log.d("size(",String.valueOf(emaillist.size()));

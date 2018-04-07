@@ -129,25 +129,25 @@ public class live extends AppCompatActivity {
         String username = "";
         if (cn < list.size() - 2)
         {
-            //Slot s = list.get(cn + 2);
+            Slot s = list.get(cn + 2);
             email = emaillist.get(cn+2);
-            //username = s.getUid();
+            username = s.getUid();
 
-        Log.d("useranmem",email);
+            Log.d("useranmem",username);
 
-        Log.d("your email!!", this.email);
-        String[] recipients = {"nirajvadhaiya@gmail.com"};
-        SendEmailAsyncTask emailAsyncTask = new SendEmailAsyncTask();
-        //emailAsyncTask.activity = this;
-        String id = "slotter2018@gmail.com";
-        String pass = "Abcd1234.";
-        emailAsyncTask.m = new Mail(id, pass);
-        emailAsyncTask.m.set_from(id);
-        emailAsyncTask.m.setBody("Hey " + uname.getText().toString() + " Your Slot will be start within " + esti + " minitues. So Please come on Time!!!!");
-        emailAsyncTask.m.set_to(recipients);
-        emailAsyncTask.m.set_subject("Slotter notification");
-        emailAsyncTask.execute();
-    }
+            Log.d("your email!!", this.email);
+            String[] recipients = {email};
+            SendEmailAsyncTask emailAsyncTask = new SendEmailAsyncTask();
+            //emailAsyncTask.activity = this;
+            String id = "slotter2018@gmail.com";
+            String pass = "Abcd1234.";
+            emailAsyncTask.m = new Mail(id, pass);
+            emailAsyncTask.m.set_from(id);
+            emailAsyncTask.m.setBody("Hey " + username + " Your Slot will be start within " + esti + " minitues. So Please come on Time!!!!");
+            emailAsyncTask.m.set_to(recipients);
+            emailAsyncTask.m.set_subject("Slotter notification");
+            emailAsyncTask.execute();
+        }
         //notificatiin set to user:::
         cn++;
         Log.d("cn",String.valueOf(cn));
