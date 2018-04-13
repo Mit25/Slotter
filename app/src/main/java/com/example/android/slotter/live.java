@@ -113,23 +113,34 @@ public class live extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         Date d = c.getTime();
         DateFormat df = new SimpleDateFormat("HH:mm");
+        if(cn+1< list.size()) {
+            Slot s1 = list.get(cn + 1);
+            dtime = s1.getEtime();
+        }
         String time = df.format(d);
         String t[] = time.split(":");
         String t1[] = dtime.split(":");
 
         int min1 = Integer.parseInt(t[0]) * 60 + Integer.parseInt(t[1]);
         int min2 = Integer.parseInt(t1[0]) * 60 + Integer.parseInt(t1[1]);
-        int esti = min1 - min2;
+        int esti = min2 - min1;
 
-
-        est = (int) ((esti * 0.9) + (0.1 * est)) + Integer.parseInt(interval);
-
+        est = (int) ((esti * 0.9) + (0.1 * est));
 
         // email = myRef.child("user").child(uname.getText().toString()).child("email").getKey();
         String username = "";
         if (cn < list.size() - 2)
         {
             Slot s = list.get(cn + 2);
+            String etime[] = s.getEtime().split(":");
+            int min11 = Integer.parseInt(etime[0]) * 60 + Integer.parseInt(etime[1]);
+            int finaltime = est + Integer.parseInt(interval);
+            if( min11 - min1 - est > (5+ Integer.parseInt(interval)))
+            {
+                String stime[] = s.getStime().split(":");
+                min11 = Integer.parseInt(stime[0]) * 60 + Integer.parseInt(stime[1]);
+                finaltime = min11-min1;
+            }
             email = emaillist.get(cn+2);
             username = s.getUid();
 
@@ -143,7 +154,7 @@ public class live extends AppCompatActivity {
             String pass = "Abcd1234.";
             emailAsyncTask.m = new Mail(id, pass);
             emailAsyncTask.m.set_from(id);
-            emailAsyncTask.m.setBody("Hey " + username + " Your Slot will be start within " + esti + " minitues. So Please come on Time!!!!");
+            emailAsyncTask.m.setBody("Hey " + username + " Your Slot will be start within " + finaltime + " minutes.\n So Please be on Time.\n Thanks." );
             emailAsyncTask.m.set_to(recipients);
             emailAsyncTask.m.set_subject("Slotter notification");
             emailAsyncTask.execute();
