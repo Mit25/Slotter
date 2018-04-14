@@ -97,10 +97,10 @@ public class live extends AppCompatActivity {
 
             }
             //Log.d("snloo",s.getsNumber());
-            uname.setText(s.getUid());
-            sdate.setText(s.getDate());
-            stime.setText(s.getStime());
-            sno.setText(s.getsNumber()+"");
+            uname.setText("User Name: "+s.getUid());
+            sdate.setText("Date: "+s.getDate());
+            stime.setText("Start Time: "+s.getStime());
+            sno.setText("Slot number: "+s.getsNumber()+"");
         }
     }
 
