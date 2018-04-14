@@ -110,6 +110,9 @@ public class live extends AppCompatActivity {
     }
 
     public void stop(View v) {
+
+        myRef.child("Event").child(eventKey).child("SLOTDETAILS").child(list.get(cn).getsNumber()+"").child("auth").setValue(false);
+
         Calendar c = Calendar.getInstance();
         Date d = c.getTime();
         DateFormat df = new SimpleDateFormat("HH:mm");
@@ -134,12 +137,15 @@ public class live extends AppCompatActivity {
             Slot s = list.get(cn + 2);
             String etime[] = s.getEtime().split(":");
             int min11 = Integer.parseInt(etime[0]) * 60 + Integer.parseInt(etime[1]);
+            String stime[] = s.getStime().split(":");
+            int min12 = Integer.parseInt(stime[0]) * 60 + Integer.parseInt(stime[1]);
             int finaltime = est + Integer.parseInt(interval);
-            if( min11 - min1 - est > (5+ Integer.parseInt(interval)))
+            finaltime = min11-min1;
+            int du =min11-min12;
+            if( min11 - min12 >= 2*du )
             {
-                String stime[] = s.getStime().split(":");
-                min11 = Integer.parseInt(stime[0]) * 60 + Integer.parseInt(stime[1]);
-                finaltime = min11-min1;
+                finaltime = min12-min1;
+                est = du;
             }
             email = emaillist.get(cn+2);
             username = s.getUid();
